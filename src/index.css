@@ -2,7 +2,14 @@
 @import "tailwindcss";
 
 @theme {
-  --color-gray-600: rgb(121, 121, 121);
+  --color-gray-200: rgb(205, 205, 205);
+  --color-gray-300: rgb(190, 190, 190);
   --color-gray-400: rgb(165, 165, 165);
+  --color-gray-600: rgb(120, 120, 120);
+  --color-gray-800: rgb(75, 75, 75);
   --font-roboto: "Roboto", sans-serif;
+}
+
+html {
+  scroll-padding-top: 150px;
 }

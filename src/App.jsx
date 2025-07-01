@@ -11,6 +11,7 @@ const myRouter = createBrowserRouter(
 );
 
 function App() {
+  // console.log(web3FormsApiKey);
   console.log("✅ Vite app is running!");
   return <RouterProvider router={myRouter} />;
 }

@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@lottiefiles/dotlottie-react": "^0.14.2",
     "@tailwindcss/vite": "^4.1.10",
     "@tsparticles/engine": "^3.8.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.8.1",
+    "framer-motion": "^12.19.2",
     "i": "^0.3.7",
     "lucide-react": "^0.519.0",
     "npm": "^11.4.2",
