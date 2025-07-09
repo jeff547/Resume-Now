@@ -5,9 +5,10 @@ const LandingPageSection = ({ id, children }) => {
     <motion.section
       initial={id === "home" ? { opacity: 0 } : { opacity: 0, y: 75 }}
       whileInView={id === "home" ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      viewport={{ once: true }}
       transition={{ duration: 0.75, delay: 0.6 }}
       id={id}
-      className={`${id === "home" ? "h-[90vh]" : "h-[80vh]"} font-roboto my-24 flex flex-col items-center`}
+      className={`${id === "home" ? "h-[90vh]" : "h-[80vh]"} font-roboto mb-30 mt-10 flex flex-col items-center`}
     >
       {children}
     </motion.section>

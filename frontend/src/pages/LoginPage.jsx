@@ -1,15 +1,11 @@
-import Header from "../components/Header";
-import Hero from "../components/Hero";
-import AboutUsSection from "./sections/AboutUsSection";
-import BenefitsSection from "./sections/BenefitsSection";
-import ContactSection from "./sections/ContactSection";
-import ProcessSection from "./sections/ProcessSection";
 import particlesConfig from "../assets/configs/particlesjs-config.json";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { useState, useEffect } from "react";
 import { loadSlim } from "@tsparticles/slim";
+import LoginForm from "../components/LoginForm";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
-const LandingPage = () => {
+const LoginPage = () => {
   // Initialize particles effect form tsparticles
   const [init, setInit] = useState(false);
 
@@ -23,8 +19,9 @@ const LandingPage = () => {
   const particlesLoaded = () => {
     console.log("particles loaded");
   };
+
   return (
-    <div className="relative min-h-screen w-full">
+    <>
       {init && (
         <Particles
           id="tsparticles"
@@ -33,13 +30,16 @@ const LandingPage = () => {
           className="pointer-events-none absolute"
         />
       )}
-      <Header />
-      <Hero />
-      <BenefitsSection />
-      <ProcessSection />
-      <AboutUsSection />
-      <ContactSection />
-    </div>
+      <div className="flex min-h-screen items-center justify-end">
+        <div className="ml-16">{<LoginForm />}</div>
+        <DotLottieReact
+          src="src/assets/animations/hello.lottie"
+          loop
+          autoplay
+          className="h-auto w-[800px]"
+        />
+      </div>
+    </>
   );
 };
-export default LandingPage;
+export default LoginPage;

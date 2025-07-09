@@ -1,0 +1,31 @@
+{
+  "name": "frontend",
+
+  "dockerComposeFile": "../../docker-compose.yaml",
+
+  "service": "frontend",
+
+  "workspaceFolder": "/frontend",
+
+  "forwardPorts": [3000],
+  
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "wallabyjs.console-ninja",
+        "ms-azuretools.vscode-containers",
+        "naumovs.color-highlight",
+        "ms-vscode-remote.remote-containers",
+        "ms-azuretools.vscode-docker",
+        "dsznajder.es7-react-js-snippets",
+        "dbaeumer.vscode-eslint",
+        "ecmel.vscode-html-css",
+        "christian-kohler.npm-intellisense",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ]
+    }
+  },
+  
+  
+}
