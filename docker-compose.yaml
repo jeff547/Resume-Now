@@ -1,25 +1,53 @@
 services:
   backend:
+    container_name: backend
     build: 
       context: backend
+    depends_on:
+      - db
     ports:
-      - 8000:8000
+      - 8000:8000 # Exposes FastAPI app on localhost:8000
     volumes:
-      - ./backend:/backend
-    command: uvicorn test:app --host 0.0.0.0 --port 8000 --reload
+      - ./backend:/backend # Syncs local code with container for hot reload
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1 # Logs output immediately (no buffering)
+      - PYTHONDONTWRITEBYTECODE=1 # Don't write .pyc files
+    command: uvicorn auth:app --host 0.0.0.0 --port 8000 --reload
   frontend:
+    container_name: frontend
     build:
       context: frontend
     ports:
-      - 3000:3000
+      - 3000:3000 # Exposes frontend (Vite/React) on localhost:3000
     volumes:
-      - ./frontend:/frontend
-      - /frontend/node_modules
-      - "${HOME}/.vscode/extensions:/root/.vscode/extensions"
+      - ./frontend:/frontend # Sync code for hot reload
+      - /frontend/node_modules # Prevents node_modules being overwritten by empty host dir
+      - "${HOME}/.vscode/extensions:/root/.vscode/extensions" 
       - "${HOME}/Library/Application Support/Code/User/globalStorage/wallabyjs.console-ninja:/root/.console-ninja"
+    env_file:
+      - .env
     environment:
     - CHOKIDAR_USEPOLLING=true
     command: npm run dev
     tty: true
     stdin_open: true
+  db:
+    image: postgres:17.5-alpine
+    container_name: db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 5s
+    env_file:
+      - .env
+    ports:
+      - 5432:5432 # Exposes DB to host machine
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    restart: always 
+    shm_size: 128mb # set shared memory limit
 
