@@ -1,18 +1,25 @@
 from fastapi import FastAPI
-from database import create_db_and_tables
-from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from config import settings
+from contextlib import asynccontextmanager
+
+from app.core.database import create_db_and_tables
+from app.core.config import settings
+from app.routers import users, projects
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Creating tables...")
-    create_db_and_tables()
+    await create_db_and_tables()
     print("Tables created.")
+    print(settings.sqlalchemy_database_url)
     yield
     print("Lifespan ending... (shutdown logic if needed)")
 
+# Intialize App
 app = FastAPI(lifespan=lifespan)
+# Add Users and Projects Routers to App
+app.include_router(users.router)
+app.include_router(projects.router)
 
 app.add_middleware(
     CORSMiddleware,

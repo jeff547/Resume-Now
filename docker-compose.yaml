@@ -14,7 +14,7 @@ services:
     environment:
       - PYTHONUNBUFFERED=1 # Logs output immediately (no buffering)
       - PYTHONDONTWRITEBYTECODE=1 # Don't write .pyc files
-    command: uvicorn auth:app --host 0.0.0.0 --port 8000 --reload
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
   frontend:
     container_name: frontend
     build:

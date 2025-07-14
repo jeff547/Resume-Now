@@ -1,5 +1,7 @@
 {
     "recommendations": [
-        "marnix.tokyo-night-pro"
+        "marnix.tokyo-night-pro",
+        "mutantdino.resourcemonitor",
+        "wakatime.vscode-wakatime"
     ]
 }

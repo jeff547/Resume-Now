@@ -1,10 +1,13 @@
+alembic
 bcrypt
 cryptography
 fastapi
 passlib
-psycopg[binary]
+asyncpg
 python-jose
 python-multipart
 pydantic-settings
+pydantic[email]
+httpx
 sqlmodel
 uvicorn[standard]
