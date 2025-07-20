@@ -1,4 +1,3 @@
-from __future__ import annotations
 from typing import TYPE_CHECKING
 import uuid
 
@@ -41,8 +40,10 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
-    projects: list[Project] = Relationship(back_populates='owner')
+    projects: list['Project'] = Relationship(back_populates='owner')
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
+
+from .project import Project

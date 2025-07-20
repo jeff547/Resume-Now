@@ -1,4 +1,5 @@
 alembic
+aiosqlite
 bcrypt
 cryptography
 fastapi
@@ -8,6 +9,8 @@ python-jose
 python-multipart
 pydantic-settings
 pydantic[email]
+pytest
+pytest_asyncio
 httpx
 sqlmodel
 uvicorn[standard]

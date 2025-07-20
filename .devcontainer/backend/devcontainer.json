@@ -20,7 +20,10 @@
                 "damildrizzy.fastapi-snippets",
                 "ms-azuretools.vscode-docker",
                 "ms-vscode-remote.remote-containers",
-                "ms-azuretools.vscode-containers"
+                "ms-azuretools.vscode-containers",
+                "humao.rest-client",
+                "ckolkman.vscode-postgres",
+                "qwtel.sqlite-viewer"
             ]
         }
     },

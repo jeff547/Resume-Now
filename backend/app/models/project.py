@@ -1,4 +1,3 @@
-from __future__ import annotations
 from typing import TYPE_CHECKING
 from datetime import datetime
 import uuid
@@ -33,5 +32,6 @@ class Project(ProjectBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     created_at: datetime 
     owner_id: uuid.UUID = Field(foreign_key="user.id", nullable=False)
-    owner: User = Relationship(back_populates='projects')
-    
+    owner: 'User' = Relationship(back_populates='projects')
+
+from .user import User
