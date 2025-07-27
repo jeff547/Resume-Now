@@ -2,18 +2,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import users, projects
-
-
-from .tests.utils import *
-
+from app.routers import users, projects, login
 
 # Intialize App
 app = FastAPI()
-print(random_email())
 # Add Users and Projects Routers to App
 app.include_router(users.router)
 app.include_router(projects.router)
+app.include_router(login.router)
 
 app.add_middleware(
     CORSMiddleware,

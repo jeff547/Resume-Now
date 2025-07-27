@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 class UserBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     username: str | None = Field(default=None, max_length=255)
+    is_superuser: bool = False
 
 # Properties to receive via API on creation
 class UserCreate(UserBase):
@@ -24,9 +25,9 @@ class UserCreate(UserBase):
 # ----------------------------------------
 
 # Admin permissions
-class UserUpdate(SQLModel):
+class UserUpdate(UserBase):
     email: EmailStr | None = Field(default=None, max_length=255)
-    username: str | None = Field(default=None, max_length=255)
+    password: str | None = Field(min_length=8, max_length=40)
 # Account Owner permissions
 class UserSelfUpdate(SQLModel):
     full_name: str | None = Field(default=None, max_length=255)
@@ -45,5 +46,9 @@ class User(UserBase, table=True):
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: uuid.UUID
+    
+class UsersPublic(SQLModel):
+    data: list[UserPublic]
+    count: int
 
 from .project import Project

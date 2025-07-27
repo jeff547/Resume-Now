@@ -1,7 +1,36 @@
-POST http://localhost:8000/users/
+@token = {{login.response.body.access_token}}
+
+### Register user
+POST http://localhost:8000/users/signup
 Content-Type: application/json
+Accept: application/json
 
 {
     "email": "jefflu547@gmail.com",
     "password": "h78t9gi9"
 } 
+
+### Add Project to user
+POST http://localhost:8000/projects/
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "title": "The Giver",
+    "content": "Sara Outwater"
+}
+
+### Get Projects
+GET http://localhost:8000/projects/
+Authorization: Bearer {{token}}
+
+### Get Access Token
+# @name login
+POST http://localhost:8000/login/token
+Content-Type: application/x-www-form-urlencoded
+
+username=jefflu547@gmail.com&password=h78t9gi9
+
+### Get Current User
+GET http://localhost:8000/users/self
+Authorization: Bearer {{token}}

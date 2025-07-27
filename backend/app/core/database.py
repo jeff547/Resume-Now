@@ -8,7 +8,7 @@ from app.core.config import settings
 
 engine = create_async_engine(settings.sqlalchemy_database_url, echo = True)
 async_session = async_sessionmaker(
-    bidn=engine,
+    bind=engine,
     class_=AsyncSession,
     autocommit=False,
     autoflush=False,

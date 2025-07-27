@@ -3,6 +3,7 @@ aiosqlite
 bcrypt
 cryptography
 fastapi
+PyJWT
 passlib
 asyncpg
 python-jose

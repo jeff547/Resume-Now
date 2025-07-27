@@ -7,13 +7,14 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 import pytest_asyncio
 
 from app.main import app
-from app.core.database import get_db 
+from app.core.database import get_db
+from app.tests.utils import random_user
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
 engine = create_async_engine(
     TEST_DATABASE_URL,
-    echo=True,
+    echo=False, # Prints output to stdout
     poolclass=StaticPool,
     connect_args={ "check_same_thread": False},
 )
@@ -40,7 +41,7 @@ async def async_db(async_engine) -> AsyncGenerator[AsyncSession, None]:
     
     async with async_session() as session:
         await session.begin()
-        
+
         yield session
         
         await session.rollback()
@@ -57,10 +58,14 @@ async def async_client(async_db) -> AsyncGenerator[AsyncClient, None]:
     ) as client:
         yield client
         
-    
-    
-        
-
+@pytest_asyncio.fixture
+async def normal_user_token_header(async_client: AsyncClient, async_db: AsyncSession) -> dict[str, str]:
+   user, password = await random_user(async_db)
+   data = {"username": user.email, "password": password}
+   r = await async_client.post('/login/token', data=data)
+   access_token = r.json()["access_token"]
+   headers = {"Authorization": f"Bearer {access_token}"}
+   return headers
 
 
 

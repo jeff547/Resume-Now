@@ -6,5 +6,8 @@ class Settings(BaseSettings):
     sqlalchemy_database_url: str
     secret_key: str
     allowed_origins: list[str]
+    superuser_email: str
+    superuser_password: str
     
 settings = Settings() # type: ignore
+    
