@@ -3,7 +3,7 @@ import pytest
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app import crud
-from app.models.user import UserCreate
+from app.models.user import User, UserCreate
 from app.tests.utils import random_email, random_string
 
 @pytest.mark.asyncio
@@ -33,9 +33,8 @@ async def test_exisiting_email(async_client: AsyncClient):
     assert r2.json()['detail'] == "A user with this email already exists."
 
 @pytest.mark.asyncio
-async def test_delete_user(async_client: AsyncClient, async_db: AsyncSession):
-    user = await crud.create_new_user(
-        async_db, UserCreate(email=random_email(), password=random_string()))
+async def test_delete_user(async_client: AsyncClient, test_user: tuple[User, str], async_db: AsyncSession):
+    user = test_user[0]
     assert user is not None
     user_id = user.id
     r = await async_client.delete(f'/users/{user_id}')

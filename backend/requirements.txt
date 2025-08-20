@@ -1,6 +1,6 @@
 alembic
 aiosqlite
-bcrypt
+bcrypt<4.0.0
 cryptography
 fastapi
 PyJWT

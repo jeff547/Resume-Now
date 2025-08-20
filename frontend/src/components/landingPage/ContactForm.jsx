@@ -1,5 +1,3 @@
-import Button from "./Button";
-
 const ContactForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();

@@ -30,8 +30,8 @@ async def test_create_user(async_db: AsyncSession) -> None:
     assert verify_password(password, user.hashed_password)
 
 @pytest.mark.asyncio
-async def test_delete_user(async_db: AsyncSession) -> None:
-    user, _ = await random_user(async_db)
+async def test_delete_user(async_db: AsyncSession, test_user: tuple[User, str]) -> None:
+    user = test_user[0]
     assert user is not None
     
     result = await crud.delete_user(async_db, user)
@@ -62,27 +62,28 @@ async def test_not_authenticate_user(async_db: AsyncSession) -> None:
     assert user is None
 
 @pytest.mark.asyncio
-async def test_get_user(async_db: AsyncSession) -> None:
-    user, _= await random_user(async_db)
+async def test_get_user(test_user: tuple[User, str], async_db: AsyncSession) -> None:
+    user = test_user[0]
     assert user is not None
     
-    test_user = await async_db.get(User, user.id)
+    db_user = await async_db.get(User, user.id)
     
-    assert test_user is not None
-    assert user.email == test_user.email
+    assert db_user is not None
+    assert user.email == db_user.email
 
 @pytest.mark.asyncio
-async def test_update_user(async_db: AsyncSession) -> None:
-    user, password = await random_user(async_db)
+async def test_update_user(test_user: tuple[User, str], async_db: AsyncSession) -> None:
+    user, password = test_user
     assert user is not None
     orig_email = user.email
+    orig_id = user.id
     
     update = UserUpdate(
         email = random_email(), username = random_string(), password = random_string()
     )
     updated_user = await crud.update_user(async_db, user, update)
     
-    assert updated_user.id == user.id
+    assert updated_user.id == orig_id
     assert updated_user.email != orig_email
     assert updated_user.username is not None
     assert not verify_password(password, updated_user.hashed_password)

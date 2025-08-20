@@ -1,9 +1,9 @@
 import CTA from "./CTA";
 import LandingPageSection from "./LandingPageSection";
-import logo from "../assets/images/logo.png";
+import logo from "/frontend/src/assets/images/logo.png";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Title from "./Title";
-import Subtitle from "./Subtitle";
+import Title from "../common/Title";
+import Subtitle from "../common/Subtitle";
 
 const Hero = () => {
   return (

@@ -27,11 +27,11 @@ async def get_current_user(db: SessionDep, token: TokenDep) -> User:
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Could not validate credentials"
         )
-    if not token_data.sub:
+    if not token_data.user:
         raise HTTPException(status_code=404, detail="Missing email in token")
-    user = await crud.get_user_by_email(db, token_data.sub)
+    user = await crud.get_user_by_email(db, token_data.user.email)
     if not user:
-        raise HTTPException(status_code=404, detail=f"User not found {token_data.sub}")
+        raise HTTPException(status_code=404, detail=f"User not found {token_data.user.email}")
     return user
 
 CurrentUser = Annotated[User, Depends(get_current_user)]

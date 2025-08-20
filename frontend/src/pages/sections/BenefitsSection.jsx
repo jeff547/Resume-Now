@@ -1,8 +1,8 @@
-import LandingPageSection from "../../components/LandingPageSection";
-import SectionLabel from "../../components/SectionLabel";
-import Title from "../../components/Title";
-import Subtitle from "../../components/Subtitle";
-import Card from "../../components/Card";
+import LandingPageSection from "../../components/landingPage/LandingPageSection";
+import SectionLabel from "../../components/landingPage/SectionLabel";
+import Title from "../../components/common/Title";
+import Subtitle from "../../components/common/Subtitle";
+import Card from "../../components/common/Card";
 
 const BenefitsSection = () => {
   return (

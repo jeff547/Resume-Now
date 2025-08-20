@@ -12,69 +12,8 @@ from app.models.user import UpdatePassword, User, UserCreate, UserPublic, UserSe
 from app import crud 
 
 router = APIRouter(prefix="/users", tags=["Users"])
-"""
-Superuser permission level
-"""
-@router.post("/", response_model=UserPublic)
-async def create_user(db: SessionDep, user_in: UserCreate):
-    """
-    Create new user.
-    """
-    user_exists = await crud.get_user_by_email(db, user_in.email)
-    if user_exists:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT, 
-            detail="A user with this email already exists.",
-        )
-    try:
-        user = await crud.create_new_user(db, user_in) 
-        return user
-    except DatabaseError:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to create user due to a database error."
-        )
 
-@router.get("/", response_model=UserPublic)
-async def search_user_by_email(db: SessionDep, email: str):
-    user = await crud.get_user_by_email(db, email)
-    if not user:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found."
-        )
-    return user
 
-@router.get("/", response_model=UsersPublic)
-async def read_users(db: SessionDep, skip: int = 0, limit: int = 100) -> Any:
-    """
-    Retrieve users.
-    """
-    users, count = await crud.get_users(db, skip, limit)
-    if count == 0 or users is None:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail="No Users Found"
-        )
-    user_public_list = [UserPublic.model_validate(user) for user in users]
-    return (user_public_list, count)
-
-@router.delete("/{user_id}", response_model=Message)
-async def delete_user(db: SessionDep, user_id: UUID):
-    """
-    Delete user from database
-    """
-    user = await db.get(User, user_id)
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
-    try:
-        return await crud.delete_user(db, user)
-    except DatabaseError as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
-    
-    
 """
 Currrent User permission level
 """
@@ -159,3 +98,67 @@ async def delete_self_user(db: SessionDep, current_user: CurrentUser):
         return await crud.delete_user(db, current_user)
     except DatabaseError as e:
         raise HTTPException(status_code=500, detail=str(e))
+"""
+Superuser permission level
+"""
+@router.post("/", response_model=UserPublic)
+async def create_user(db: SessionDep, user_in: UserCreate):
+    """
+    Create new user.
+    """
+    user_exists = await crud.get_user_by_email(db, user_in.email)
+    if user_exists:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT, 
+            detail="A user with this email already exists.",
+        )
+    try:
+        user = await crud.create_new_user(db, user_in) 
+        return user
+    except DatabaseError:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Failed to create user due to a database error."
+        )
+
+@router.get("/", response_model=UserPublic)
+async def search_user_by_email(db: SessionDep, email: str):
+    user = await crud.get_user_by_email(db, email)
+    if not user:
+        raise HTTPException(
+            status_code=404,
+            detail="User not found."
+        )
+    return user
+
+@router.get("/", response_model=UsersPublic)
+async def read_users(db: SessionDep, skip: int = 0, limit: int = 100) -> Any:
+    """
+    Retrieve users.
+    """
+    users, count = await crud.get_users(db, skip, limit)
+    if count == 0 or users is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No Users Found"
+        )
+    user_public_list = [UserPublic.model_validate(user) for user in users]
+    return (user_public_list, count)
+
+@router.delete("/{user_id}", response_model=Message)
+async def delete_user(db: SessionDep, user_id: UUID):
+    """
+    Delete user from database
+    """
+    user = await db.get(User, user_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+    try:
+        return await crud.delete_user(db, user)
+    except DatabaseError as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    
+    
+

@@ -1,5 +1,5 @@
-import Header from "../components/Header";
-import Hero from "../components/Hero";
+import Header from "../components/landingPage/Header";
+import Hero from "../components/landingPage/Hero";
 import AboutUsSection from "./sections/AboutUsSection";
 import BenefitsSection from "./sections/BenefitsSection";
 import ContactSection from "./sections/ContactSection";

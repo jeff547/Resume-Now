@@ -1,8 +1,8 @@
-import LandingPageSection from "../../components/LandingPageSection";
-import SectionLabel from "../../components/SectionLabel";
+import LandingPageSection from "../../components/landingPage/LandingPageSection";
+import SectionLabel from "../../components/landingPage/SectionLabel";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import Title from "../../components/Title";
-import Subtitle from "../../components/Subtitle";
+import Title from "../../components/common/Title";
+import Subtitle from "../../components/common/Subtitle";
 
 const AboutUsSection = () => {
   return (

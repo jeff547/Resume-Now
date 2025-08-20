@@ -114,7 +114,7 @@ async def create_new_project(
     db_project = Project(
         title = project_in.title,
         content = project_in.content,
-        last_opened = project_in.last_opened,
+        last_opened = datetime.now(timezone.utc),
         created_at = datetime.now(timezone.utc),
         owner_id= current_user.id,
     )

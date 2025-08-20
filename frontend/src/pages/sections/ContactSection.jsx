@@ -1,10 +1,9 @@
-import LandingPageSection from "../../components/LandingPageSection";
-import SectionLabel from "../../components/SectionLabel";
-import Card from "../../components/Card";
-import Button from "../../components/Button";
-import ContactForm from "../../components/ContactForm";
-import Title from "../../components/Title";
-import Subtitle from "../../components/Subtitle";
+import LandingPageSection from "../../components/landingPage/LandingPageSection";
+import SectionLabel from "../../components/landingPage/SectionLabel";
+import Card from "../../components/common/Card";
+import ContactForm from "../../components/landingPage/ContactForm";
+import Title from "../../components/common/Title";
+import Subtitle from "../../components/common/Subtitle";
 import { Mail, Phone } from "lucide-react";
 
 const ContactSection = () => {

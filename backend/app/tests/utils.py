@@ -32,7 +32,6 @@ async def random_project(async_db: AsyncSession, db_user: User) -> Project:
     project_in = ProjectCreate(
         title = random_string(5),
         content = random_string(16),
-        last_opened = datetime.now(timezone.utc)
     )
     project = await crud.create_new_project(async_db, db_user, project_in)
     return project

@@ -83,7 +83,7 @@ async def update_project(
     )
         
 @router.delete("/{project_id}", response_model=Message)
-async def delete_user(db:SessionDep, current_user: CurrentUser, project_id: UUID):
+async def delete_project(db:SessionDep, current_user: CurrentUser, project_id: UUID):
     """
     Deletes project from database
     """

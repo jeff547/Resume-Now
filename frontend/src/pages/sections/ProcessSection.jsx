@@ -1,7 +1,7 @@
-import LandingPageSection from "../../components/LandingPageSection";
-import SectionLabel from "../../components/SectionLabel";
-import Title from "../../components/Title";
-import StepsCard from "../../components/StepsCard";
+import LandingPageSection from "../../components/landingPage/LandingPageSection";
+import SectionLabel from "../../components/landingPage/SectionLabel";
+import Title from "../../components/common/Title";
+import StepsCard from "../../components/landingPage/StepsCard";
 
 const ProcessSection = () => {
   return (

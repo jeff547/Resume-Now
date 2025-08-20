@@ -1,8 +1,8 @@
-import Card from "./Card";
+import Card from "../common/Card";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import Subtitle from "./Subtitle";
-import Title from "./Title";
+import Subtitle from "../common/Subtitle";
+import Title from "../common/Title";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const StepsCard = () => {

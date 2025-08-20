@@ -30,7 +30,7 @@ class UserUpdate(UserBase):
     password: str | None = Field(min_length=8, max_length=40)
 # Account Owner permissions
 class UserSelfUpdate(SQLModel):
-    full_name: str | None = Field(default=None, max_length=255)
+    username: str | None = Field(default=None, max_length=255)
     email: EmailStr | None = Field(default=None, max_length=255)
 # Account Owner pasword change
 class UpdatePassword(SQLModel):
