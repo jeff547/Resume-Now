@@ -98,9 +98,13 @@ async def delete_self_user(db: SessionDep, current_user: CurrentUser):
         return await crud.delete_user(db, current_user)
     except DatabaseError as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 """
 Superuser permission level
 """
+
+
 @router.post("/", response_model=UserPublic)
 async def create_user(db: SessionDep, user_in: UserCreate):
     """

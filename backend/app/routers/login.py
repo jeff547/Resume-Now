@@ -1,7 +1,8 @@
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, Response
 from fastapi.security import OAuth2PasswordRequestForm
+
 import jwt
 
 from app.core.database import SessionDep
@@ -16,7 +17,8 @@ router = APIRouter(tags=["login"])
 @router.post("/login/token")
 async def login_access_token(
     db: SessionDep,
-    form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    response: Response
 ) -> Token | None:
     """
     OAuth2-compatible token login, get an access token for api requests
@@ -37,10 +39,20 @@ async def login_access_token(
         data={'email': user.email, 'user_uid': str(user.id)}
     )
     
-    return Token(access_token=access_token, refresh_token=refresh_token, token_type="bearer")
+    # Set HTTP only refresh token cookie
+    response.set_cookie(
+        key="refresh_token",
+        value=refresh_token,
+        httponly=True,
+        secure=True, # HTTPS
+        samesite="strict", # prevents CSRF
+        max_age=7*24*60*60
+    )
+    
+    return Token(access_token=access_token, token_type="bearer")
 
 @router.post("/token/refresh")
-async def refresh_access_token(refresh_token: str) -> Token | None:
+async def refresh_access_token(refresh_token: str, response: Response) -> Token | None:
     try:
         # Decode refresh token    
         payload = jwt.decode(refresh_token, settings.secret_key, algorithms=[settings.algorithm])
@@ -49,6 +61,15 @@ async def refresh_access_token(refresh_token: str) -> Token | None:
         new_access_token = security.create_access_token(user_data)
         # Rotates the refresh token to prevent reuse attacks
         new_refresh_token = security.create_refresh_token(user_data)
-        return Token(access_token=new_access_token,refresh_token=new_refresh_token)
+        # Set HTTP only refresh token cookie
+        response.set_cookie(
+            key="refresh_token",
+            value=new_refresh_token,
+            httponly=True,
+            secure=True, # HTTPS
+            samesite="strict", # prevents CSRF
+            max_age=7*24*60*60
+        )
+        return Token(access_token=new_access_token)
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid refresh token")

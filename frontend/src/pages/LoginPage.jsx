@@ -2,22 +2,25 @@ import particlesConfig from "../assets/configs/particlesjs-config.json";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { useState, useEffect } from "react";
 import { loadSlim } from "@tsparticles/slim";
-import LoginForm from "../components/auth/LoginForm";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import googleLogo from "/frontend/src/assets/images/google.png";
+import Seperator from "../components/common/Seperator";
 import Card from "../components/common/Card";
 import Register from "../components/auth/RegisterForm";
-import { useGoogleLogin } from "@react-oauth/google";
-import { useNavigate } from "react-router-dom";
-import Seperator from "../components/common/Seperator";
-import googleLogo from "/frontend/src/assets/images/google.png";
+import LoginForm from "../components/auth/LoginForm";
 
 const LoginPage = () => {
-  // Initalize Google Oauth login
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  // Initalize Google Oauth login
   const googleLogin = useGoogleLogin({
     onSuccess: (credentialResponse) => {
       console.log(credentialResponse);
-      navigate("/dashboard", { replace: true });
+      navigate(from, { replace: true });
     },
     onError: () => console.log("GoogleOAuth Failed"),
   });
@@ -59,7 +62,7 @@ const LoginPage = () => {
                 setRegister={setRegister}
               />
             ) : (
-              <LoginForm />
+              <LoginForm from={from} />
             )}
             {success || (
               <section>

@@ -8,7 +8,7 @@ const CTA = ({ text, size = "md" }) => {
 
   return (
     <Link
-      to="/login"
+      to="/dashboard"
       className={`${sizeClasses[size]} cursor-pointer rounded-xl border border-purple-400 bg-gradient-to-b from-[#551dd9] to-[#7d58cd] transition duration-700 hover:border-purple-300 hover:from-[#6322f9] hover:to-[#9b6dfd] hover:text-gray-200`}
     >
       {text}

@@ -150,6 +150,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 aria-invalid={validEmail ? "false" : "true"}
                 aria-describedby="emailnote"
+                value={email}
                 onFocus={() => setEmailFocus(true)}
                 onBlur={() => setEmailFocus(false)}
                 autoComplete="true"
@@ -189,6 +190,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 placeholder="••••••••••"
                 onChange={(e) => setPwd(e.target.value)}
                 required
+                value={pwd}
                 aria-invalid={validPwd ? "false" : "true"}
                 aria-describedby="pwdnote"
                 onFocus={() => setPwdFocus(true)}
@@ -235,6 +237,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 placeholder="••••••••••"
                 onChange={(e) => setMatchPwd(e.target.value)}
                 required
+                value={matchPwd}
                 aria-invalid={validMatch ? "false" : "true"}
                 aria-describedby="confirmNote"
                 onFocus={() => setMatchFocus(true)}
