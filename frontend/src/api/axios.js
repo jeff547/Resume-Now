@@ -1,19 +1,15 @@
 import axios from "axios";
 
-const api = axios.create({
-  baseURL: "http://localhost:8000",
+const BASE_URL = "http://localhost:8000";
+
+export const api = axios.create({
+  baseURL: BASE_URL,
   timeout: 5000,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
-// attaches access token to api request
-// api.interceptors.request.use((config) => {
-//   if (token) {
-//     config.headers.Authorization = `Bearer ${token}`;
-//   }
-//   return config;
-// });
-
-export default api;
+export const apiAuth = axios.create({
+  baseURL: BASE_URL,
+  timeout: 5000,
+  headers: { "Content-Type": "application/json" },
+  withCredentials: true,
+});

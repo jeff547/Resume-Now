@@ -34,3 +34,6 @@ username=jefflu547@gmail.com&password=h78t9gi9
 ### Get Current User
 GET http://localhost:8000/users/self
 Authorization: Bearer {{token}}
+
+### Refresh Token
+GET http://localhost:8000/token/refresh

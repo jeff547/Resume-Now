@@ -6,7 +6,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import api from "/frontend/src/api/axios";
+import { api } from "/frontend/src/api/axios";
 import ErrorMessage from "./ErrorMessage";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -153,7 +153,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 value={email}
                 onFocus={() => setEmailFocus(true)}
                 onBlur={() => setEmailFocus(false)}
-                autoComplete="true"
+                autoComplete="email"
                 className="w-full rounded-md border border-gray-800 bg-black p-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
               />
 
@@ -190,6 +190,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 placeholder="••••••••••"
                 onChange={(e) => setPwd(e.target.value)}
                 required
+                autoComplete="new-password"
                 value={pwd}
                 aria-invalid={validPwd ? "false" : "true"}
                 aria-describedby="pwdnote"

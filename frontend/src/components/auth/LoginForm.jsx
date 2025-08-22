@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import Title from "../common/Title";
 import ErrorMessage from "./ErrorMessage";
 
-import api from "/frontend/src/api/axios";
+import { api } from "/frontend/src/api/axios";
 import useAuth from "../../hooks/useAuth";
+import useInput from "../../hooks/useInput";
+import useToggle from "../../hooks/useToggle";
 
 const LoginForm = ({ from }) => {
   const LOGIN_URL = "/login/token";
@@ -16,9 +18,10 @@ const LoginForm = ({ from }) => {
   const userRef = useRef();
   const errRef = useRef();
 
-  const [email, setEmail] = useState("");
+  const [email, resetEmail, emailAttribs] = useInput("email", "");
   const [pwd, setPwd] = useState("");
   const [errMsg, setErrMsg] = useState("");
+  const [check, toggleCheck] = useToggle("persist", false);
 
   // Focus on first input box when first opening page
   useEffect(() => {
@@ -51,6 +54,7 @@ const LoginForm = ({ from }) => {
 
       // Check HTTP success status code
       if (response.status == 200) {
+        resetEmail();
         navigate(from, { replace: true });
       }
     } catch (err) {
@@ -84,8 +88,8 @@ const LoginForm = ({ from }) => {
             id="email"
             ref={userRef}
             placeholder="JohnDoe@mail.com"
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
+            {...emailAttribs}
+            autoComplete="email"
             required
             className="w-full rounded-md border border-gray-800 bg-black p-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
           />
@@ -100,9 +104,22 @@ const LoginForm = ({ from }) => {
             placeholder="••••••••••"
             onChange={(e) => setPwd(e.target.value)}
             value={pwd}
+            autoComplete="current-password"
             required
             className="w-full rounded-md border border-gray-800 bg-black p-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
           />
+        </div>
+        <div className="flex gap-1.5">
+          <input
+            type="checkbox"
+            id="persist"
+            onChange={toggleCheck}
+            checked={check}
+            className="w-4 accent-purple-200 hover:accent-purple-400"
+          />
+          <label htmlFor="persist" className="text-gray-300 text-sm">
+            Trust This Device
+          </label>
         </div>
         <button type="submit" className="mt-4 py-3 w-full button">
           Login

@@ -2,9 +2,9 @@ import { Outlet, Navigate, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const ProtectedRoute = () => {
-  const { token } = useAuth();
+  let { token } = useAuth();
   const location = useLocation();
-  // debug
+  // logging
   console.log(`Protected Route, Token: ${token}`);
 
   return token ? (

@@ -94,7 +94,7 @@ const LoginPage = () => {
           src="src/assets/animations/hello.lottie"
           loop
           autoplay
-          className="md:h-[400px] md:w-[700px]"
+          className="md:h-[400px] md:w-[600px]"
         />
       </div>
     </>

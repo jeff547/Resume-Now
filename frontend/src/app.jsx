@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
 import ProtectedRoute from "./components/auth/ProtectedRoute.jsx";
+import PersistLogin from "./components/auth/PersistLogin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -15,11 +16,16 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    element: <ProtectedRoute />,
+    element: <PersistLogin />,
     children: [
       {
-        path: "/dashboard",
-        element: <Dashboard />,
+        element: <ProtectedRoute />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Dashboard />,
+          },
+        ],
       },
     ],
   },

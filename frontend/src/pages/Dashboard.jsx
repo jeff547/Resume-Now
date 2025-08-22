@@ -1,4 +1,10 @@
+import Projects from "../components/api/Projects";
+
 const Dashboard = () => {
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <Projects />
+    </>
+  );
 };
 export default Dashboard;
