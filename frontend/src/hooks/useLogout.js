@@ -7,9 +7,10 @@ const useLogout = () => {
   const logout = async () => {
     setToken(null);
     try {
-      await api("/logout", {
+      await api.delete("/logout", {
         withCredentials: true,
       });
+      localStorage.clear();
     } catch (err) {
       console.error(err);
     }

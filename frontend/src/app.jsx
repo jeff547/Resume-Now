@@ -3,27 +3,39 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./pages/Dashboard.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
+import CreationPage from "./pages/CreationPage.jsx";
+
 import ProtectedRoute from "./components/auth/ProtectedRoute.jsx";
 import PersistLogin from "./components/auth/PersistLogin.jsx";
+import RootLayout from "./RootLayout.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LandingPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    element: <PersistLogin />,
+    element: <RootLayout />,
     children: [
       {
-        element: <ProtectedRoute />,
+        path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        element: <PersistLogin />,
         children: [
           {
-            path: "/dashboard",
-            element: <Dashboard />,
+            element: <ProtectedRoute />,
+            children: [
+              {
+                path: "/dashboard",
+                element: <Dashboard />,
+              },
+              {
+                path: "/create",
+                element: <CreationPage />,
+              },
+            ],
           },
         ],
       },

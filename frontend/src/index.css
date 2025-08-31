@@ -6,7 +6,12 @@
   --color-gray-300: rgb(190, 190, 190);
   --color-gray-400: rgb(165, 165, 165);
   --color-gray-600: rgb(120, 120, 120);
+  --color-gray-700: rgb(100, 100, 100);
   --color-gray-800: rgb(75, 75, 75);
+  --color-gray-900: rgb(50, 50, 50);
+  --color-gray-950: rgb(40, 40, 40);
+  --color-gray-1000: rgb(30, 30, 30);
+  --color-gray-1100: rgb(15, 15, 15);
   --font-roboto: "Roboto", sans-serif;
 }
 
@@ -15,5 +20,5 @@ html {
 }
 
 .button {
-  @apply cursor-pointer font-semibold rounded-xl border border-purple-400 bg-gradient-to-b from-[#551dd9] to-[#7d58cd] transition duration-700 hover:border-purple-300 hover:from-[#6322f9] hover:to-[#9b6dfd] hover:text-gray-200;
+  @apply cursor-pointer font-semibold rounded-xl border border-purple-400  bg-gradient-to-b from-[#551dd9] to-[#7d58cd] transition duration-700 hover:border-purple-300 hover:from-[#6322f9] hover:to-[#9b6dfd] hover:text-gray-200;
 }

@@ -15,6 +15,8 @@ if TYPE_CHECKING:
 class UserBase(SQLModel):
     email: EmailStr = Field(unique=True, index=True, max_length=255)
     username: str | None = Field(default=None, max_length=255)
+    first_name: str | None = Field(default=None, max_length=64)
+    last_name: str | None = Field(default=None, max_length=64)
     is_superuser: bool = False
 
 # Properties to receive via API on creation
@@ -32,6 +34,9 @@ class UserUpdate(UserBase):
 class UserSelfUpdate(SQLModel):
     username: str | None = Field(default=None, max_length=255)
     email: EmailStr | None = Field(default=None, max_length=255)
+    first_name: str | None = Field(default=None, max_length=64)
+    last_name: str | None = Field(default=None, max_length=64)
+    
 # Account Owner pasword change
 class UpdatePassword(SQLModel):
     current_password: str = Field(min_length=8, max_length=40)

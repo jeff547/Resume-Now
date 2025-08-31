@@ -50,7 +50,7 @@ const LoginForm = ({ from }) => {
       // Get access token
       const accessToken = response?.data.access_token;
       // Set token to app state
-      setToken(accessToken);
+      await setToken(accessToken);
 
       // Check HTTP success status code
       if (response.status == 200) {

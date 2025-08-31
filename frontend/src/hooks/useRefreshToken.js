@@ -10,12 +10,8 @@ const useRefreshToken = () => {
       withCredentials: true,
     });
 
-    setToken((prev) => {
-      console.log(`Old Access Token: ${prev}`);
-      console.log(`New Access Token: ${response.data.access_token}`);
-      // Update token in app state
-      return response.data.access_token;
-    });
+    // Update token in app state
+    setToken(response.data.access_token);
 
     return response.data.access_token;
   };

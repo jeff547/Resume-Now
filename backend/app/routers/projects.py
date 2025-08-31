@@ -54,6 +54,7 @@ async def read_project(db: SessionDep, current_user: CurrentUser, project_id: UU
             detail=str(e)
         )
 
+
 @router.patch("/{project_id}", response_model=ProjectPublic)
 async def update_project(
     db: SessionDep, current_user: CurrentUser, project_id: UUID, project_in: ProjectUpdate):
