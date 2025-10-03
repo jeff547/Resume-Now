@@ -49,6 +49,7 @@ backend/.ruff_cache/
 backend/.coverage
 backend/htmlcov/
 backend/coverage.xml
+backend/api.http
 
 # Virtual environments
 venv/
