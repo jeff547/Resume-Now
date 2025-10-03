@@ -15,6 +15,7 @@ __pycache__/
 .idea/
 *.swp
 *~
+pg-data/
 
 # ========================
 # Node / React frontend
