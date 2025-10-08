@@ -24,14 +24,14 @@ const ContactSection = () => {
               <Mail />
               <span>E-mail</span>
             </div>
-            <p>jeff547@gmail.com</p>
+            <p>tester@gmail.com</p>
           </Card>
           <Card>
             <div className="mb-3 flex items-center gap-3 pr-36">
               <Phone />
               <span>Phone</span>
             </div>
-            <p>+1(973) 337-3983</p>
+            <p>+1(123) 456-7890</p>
           </Card>
         </div>
         <Card>
