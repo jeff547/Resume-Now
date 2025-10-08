@@ -14,6 +14,7 @@ const LandingPage = () => {
   const [init, setInit] = useState(false);
 
   useEffect(() => {
+    console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
     initParticlesEngine(async (engine) => {
       await loadSlim(engine);
     }).then(() => {

@@ -5,6 +5,10 @@
 
   "service": "frontend",
 
+  "mounts": [
+    "source=${localWorkspaceFolder}/../.git,target=/workspace/.git,type=bind,consistency=cached"
+   ],
+
   "workspaceFolder": "/frontend",
 
   "forwardPorts": [3000],

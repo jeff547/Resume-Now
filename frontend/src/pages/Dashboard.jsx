@@ -16,7 +16,6 @@ const Dashboard = () => {
 
   // Fetch for user object
   useEffect(() => {
-    console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
     const getUser = async () => {
       try {
         const response = await apiAuth.get("/users/self");
