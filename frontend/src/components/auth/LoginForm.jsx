@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Title from "../common/Title";
 import ErrorMessage from "./ErrorMessage";
 
-import api from "../../api/axios";
+import { api } from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
