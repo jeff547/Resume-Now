@@ -1,4 +1,4 @@
-import logo from "../assets/images/logo.png";
+import logo from "../../assets/images/logo.png";
 import Search from "./Search";
 import CreateButton from "./CreateButton";
 import { useNavigate } from "react-router-dom";
