@@ -6,12 +6,21 @@
     "service": "backend",
   
     "workspaceFolder": "/backend",
-  
+    
+    "mounts": [
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+    ],
+
     "forwardPorts": [
         8000
     ],
+
+    "features": {
+        "ghcr.io/devcontainers/features/azure-cli": "latest",
+        "ghcr.io/devcontainers/features/docker-in-docker": "latest"
+    },
     "customizations": {
-        "vscode": {
+        "vscode": { 
             "extensions": [
                 "KevinRose.vsc-python-indent",
                 "ms-python.python",

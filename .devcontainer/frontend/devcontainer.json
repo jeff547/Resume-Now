@@ -8,7 +8,17 @@
   "workspaceFolder": "/frontend",
 
   "forwardPorts": [3000],
-  
+
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
+
+
+  "features": {
+    "ghcr.io/devcontainers/features/azure-cli": "latest",
+    "ghcr.io/devcontainers/features/docker-in-docker": "latest"
+  },
+
   "customizations": {
     "vscode": {
       "extensions": [
@@ -22,7 +32,8 @@
         "ecmel.vscode-html-css",
         "christian-kohler.npm-intellisense",
         "esbenp.prettier-vscode",
-        "bradlc.vscode-tailwindcss"
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-node-azure-pack"
       ]
     }
   }

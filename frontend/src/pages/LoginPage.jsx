@@ -6,7 +6,7 @@ import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import googleLogo from "/frontend/src/assets/images/google.png";
+import googleLogo from "../assets/images/google.png";
 import Seperator from "../components/common/Seperator";
 import Card from "../components/common/Card";
 import Register from "../components/auth/RegisterForm";
@@ -52,9 +52,9 @@ const LoginPage = () => {
           className="pointer-events-none absolute"
         />
       )}
-      <div className="flex min-h-screen items-center justify-end mx-12">
+      <div className="mx-12 flex min-h-screen items-center justify-end">
         <Card>
-          <div className="flex flex-col items-center mb-8">
+          <div className="mb-8 flex flex-col items-center">
             {register ? (
               <Register
                 success={success}
@@ -68,18 +68,18 @@ const LoginPage = () => {
               <section>
                 <Seperator />
                 <button
-                  className="text-gray-500 flex items-center gap-3 bg-white mx-4 my-8 border border-gray-600 py-3 pl-6 pr-16 rounded-xl hover:bg-gray-100"
+                  className="mx-4 my-8 flex items-center gap-3 rounded-xl border border-gray-600 bg-white py-3 pl-6 pr-16 text-gray-500 hover:bg-gray-100"
                   onClick={() => googleLogin()}
                 >
-                  <img src={googleLogo} alt="google" className="w-6 h-6" />
+                  <img src={googleLogo} alt="google" className="h-6 w-6" />
                   Sign In with Google
                 </button>
-                <p className="text-gray-400 cursor-default">
+                <p className="cursor-default text-gray-400">
                   {register
                     ? "Already have an account?"
                     : "Don't have an account?"}
                   <span
-                    className="pl-2 underline underline-offset-2 cursor-pointer hover:text-gray-200 hover:font-semibold"
+                    className="cursor-pointer pl-2 underline underline-offset-2 hover:font-semibold hover:text-gray-200"
                     onClick={() => setRegister(!register)}
                   >
                     {register ? "Sign in" : "Register Now"}
