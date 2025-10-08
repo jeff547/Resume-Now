@@ -1,6 +1,6 @@
 import CTA from "./CTA";
 import LandingPageSection from "./LandingPageSection";
-import logo from "/frontend/src/assets/images/logo.png";
+import logo from "../assets/images/logo.png";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import Title from "../common/Title";
 import Subtitle from "../common/Subtitle";

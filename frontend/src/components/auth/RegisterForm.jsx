@@ -6,7 +6,7 @@ import {
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { api } from "/frontend/src/api/axios";
+import api from "../../api/axios";
 import ErrorMessage from "./ErrorMessage";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -79,7 +79,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
 
       console.log(`${REGISTER_URL} response: ${JSON.stringify(response)}`); // logging
@@ -109,11 +109,11 @@ const Register = ({ success, setSuccess, setRegister }) => {
   return (
     <>
       {success ? (
-        <div className="flex flex-col items-center gap-8 py-10 px-8">
+        <div className="flex flex-col items-center gap-8 px-8 py-10">
           <Title classNames="text-3xl text-center">
             Your account was successfully created!
           </Title>
-          <button className="button px-12 py-3 " onClick={handleToLogin}>
+          <button className="button px-12 py-3" onClick={handleToLogin}>
             Go to Sign In
           </button>
         </div>
@@ -132,11 +132,11 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 E-mail
                 {email &&
                   (!validEmail ? (
-                    <span className="text-red-500 pl-1">
+                    <span className="pl-1 text-red-500">
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
                   ) : (
-                    <span className="text-green-500 pl-1">
+                    <span className="pl-1 text-green-500">
                       <FontAwesomeIcon icon={faCheck} />
                     </span>
                   ))}
@@ -161,7 +161,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 id="emailnote"
                 className={
                   emailFocus && email && !validEmail
-                    ? "text-red-300 text-xs mt-1.5"
+                    ? "mt-1.5 text-xs text-red-300"
                     : "sr-only"
                 }
               >
@@ -175,11 +175,11 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 Password
                 {pwd &&
                   (!validPwd ? (
-                    <span className="text-red-500 pl-1">
+                    <span className="pl-1 text-red-500">
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
                   ) : (
-                    <span className="text-green-500 pl-1">
+                    <span className="pl-1 text-green-500">
                       <FontAwesomeIcon icon={faCheck} />
                     </span>
                   ))}
@@ -202,7 +202,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 id="pwdnote"
                 className={
                   pwdFocus && !validPwd
-                    ? "text-red-300 text-xs mt-1.5"
+                    ? "mt-1.5 text-xs text-red-300"
                     : "sr-only"
                 }
               >
@@ -223,11 +223,11 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 Confirm password{" "}
                 {matchPwd &&
                   (!validMatch ? (
-                    <span className="text-red-500 pl-1">
+                    <span className="pl-1 text-red-500">
                       <FontAwesomeIcon icon={faTimes} />
                     </span>
                   ) : (
-                    <span className="text-green-500 pl-1">
+                    <span className="pl-1 text-green-500">
                       <FontAwesomeIcon icon={faCheck} />
                     </span>
                   ))}
@@ -249,7 +249,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
                 id="confirmNote"
                 className={
                   matchFocus && !validMatch
-                    ? "text-red-300 text-xs mt-1.5"
+                    ? "mt-1.5 text-xs text-red-300"
                     : "sr-only"
                 }
               >
@@ -260,7 +260,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
             <button
               type="submit"
               disabled={!validEmail || !validMatch || !validPwd ? true : false}
-              className="mt-4 w-full cursor-pointer font-semibold rounded-xl border border-purple-400 bg-gradient-to-b from-[#551dd9] to-[#7d58cd] py-3 transition duration-700 hover:border-purple-300 hover:from-[#6322f9] hover:to-[#9b6dfd] hover:text-gray-200"
+              className="mt-4 w-full cursor-pointer rounded-xl border border-purple-400 bg-gradient-to-b from-[#551dd9] to-[#7d58cd] py-3 font-semibold transition duration-700 hover:border-purple-300 hover:from-[#6322f9] hover:to-[#9b6dfd] hover:text-gray-200"
             >
               Sign Up
             </button>

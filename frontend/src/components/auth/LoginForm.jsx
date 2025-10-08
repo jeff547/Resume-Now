@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Title from "../common/Title";
 import ErrorMessage from "./ErrorMessage";
 
-import { api } from "/frontend/src/api/axios";
+import api from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
@@ -43,7 +43,7 @@ const LoginForm = ({ from }) => {
         {
           headers: { "Content-Type": "application/x-www-form-urlencoded" },
           withCredentials: true,
-        }
+        },
       );
       console.log(`'${LOGIN_URL}' response: ${JSON.stringify(response?.data)}`); // logging
 
@@ -117,11 +117,11 @@ const LoginForm = ({ from }) => {
             checked={check}
             className="w-4 accent-purple-200 hover:accent-purple-400"
           />
-          <label htmlFor="persist" className="text-gray-300 text-sm">
+          <label htmlFor="persist" className="text-sm text-gray-300">
             Trust This Device
           </label>
         </div>
-        <button type="submit" className="mt-4 py-3 w-full button">
+        <button type="submit" className="button mt-4 w-full py-3">
           Login
         </button>
       </form>
