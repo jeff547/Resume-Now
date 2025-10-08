@@ -20,7 +20,7 @@ const Hero = () => {
       </Subtitle>
       <CTA text="Create My Resume" />
       <DotLottieReact
-        src="src/assets/animations/process.lottie"
+        src="public/animations/process.lottie"
         autoplay
         loop
         className="mt-16 h-auto w-2/5"

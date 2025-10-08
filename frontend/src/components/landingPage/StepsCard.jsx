@@ -18,7 +18,7 @@ const StepsCard = () => {
     >
       <div className="relative w-[550px] overflow-hidden">
         <DotLottieReact
-          src="src/assets/animations/scan.lottie"
+          src="public/animations/scan.lottie"
           className="h-auto w-[800px] translate-x-[-100px]"
           autoplay
           loop
@@ -43,7 +43,7 @@ const StepsCard = () => {
     >
       <div className="relative w-[550px] overflow-hidden">
         <DotLottieReact
-          src="src/assets/animations/work.lottie"
+          src="public/animations/work.lottie"
           className="h-auto w-[800px] translate-x-[-100px]"
           autoplay
           loop
@@ -68,7 +68,7 @@ const StepsCard = () => {
     >
       <div className="relative w-[550px] overflow-hidden">
         <DotLottieReact
-          src="src/assets/animations/complete.lottie"
+          src="public/animations/complete.lottie"
           className="h-auto w-[800px] translate-x-[-100px]"
           autoplay
           loop

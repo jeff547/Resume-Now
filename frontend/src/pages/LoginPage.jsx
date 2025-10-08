@@ -91,7 +91,7 @@ const LoginPage = () => {
         </Card>
 
         <DotLottieReact
-          src="src/assets/animations/hello.lottie"
+          src="public/animations/hello.lottie"
           loop
           autoplay
           className="md:h-[400px] md:w-[600px]"
