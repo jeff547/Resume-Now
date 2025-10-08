@@ -16,6 +16,7 @@ const Dashboard = () => {
 
   // Fetch for user object
   useEffect(() => {
+    console.log("VITE_API_URL =", import.meta.env.VITE_API_URL);
     const getUser = async () => {
       try {
         const response = await apiAuth.get("/users/self");
@@ -32,7 +33,7 @@ const Dashboard = () => {
     <>
       <div className="bg-gray-1000 min-h-screen">
         <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="flex mt-0.5">
+        <div className="mt-0.5 flex">
           <SidePanel folders={folders} active={active} setActive={setActive} />
           <Projects activeFolder={folders[active]} searchQuery={searchQuery} />
         </div>
