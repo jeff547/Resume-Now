@@ -3,6 +3,12 @@ import SectionLabel from "../../components/landingPage/SectionLabel";
 import Title from "../../components/common/Title";
 import Subtitle from "../../components/common/Subtitle";
 import Card from "../../components/common/Card";
+import time from "../../assets/images/time.png";
+import search from "../../assets/images/search.png";
+import stress from "../../assets/images/stress.png";
+import confidence from "../../assets/images/confidence.png";
+import target from "../../assets/images/target.png";
+import support from "../../assets/images/support.png";
 
 const BenefitsSection = () => {
   return (
@@ -18,10 +24,7 @@ const BenefitsSection = () => {
       <div className="grid grid-cols-3 gap-4">
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img
-              src="src/assets/images/time.png"
-              className="ml-4 h-auto w-20"
-            />
+            <img src={time} className="ml-4 h-auto w-20" />
             <Title classNames="font-semibold text-lg text-gray-200">
               Save Time
             </Title>
@@ -33,7 +36,7 @@ const BenefitsSection = () => {
         </Card>
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img src="src/assets/images/search.png" className="h-auto w-20" />
+            <img src={search} className="h-auto w-20" />
             <Title classNames="font-semibold text-lg text-gray-200">
               Get Noticed
             </Title>
@@ -45,7 +48,7 @@ const BenefitsSection = () => {
         </Card>
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img src="src/assets/images/stress.png" className="w-21 h-auto" />
+            <img src={stress} className="w-21 h-auto" />
             <Title classNames="font-semibold text-lg text-gray-200">
               No More Resume Rage
             </Title>
@@ -57,10 +60,7 @@ const BenefitsSection = () => {
         </Card>
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img
-              src="src/assets/images/confidence.png"
-              className="h-auto w-20"
-            />
+            <img src={confidence} className="h-auto w-20" />
             <Title classNames="font-semibold text-lg text-gray-200">
               Put Your Best Self Forward
             </Title>
@@ -72,7 +72,7 @@ const BenefitsSection = () => {
         </Card>
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img src="src/assets/images/target.png" className="h-auto w-20" />
+            <img src={target} className="h-auto w-20" />
             <Title classNames="font-semibold text-lg text-gray-200">
               Optimize for Results
             </Title>
@@ -84,7 +84,7 @@ const BenefitsSection = () => {
         </Card>
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
-            <img src="src/assets/images/support.png" className="h-auto w-20" />
+            <img src={support} className="h-auto w-20" />
             <Title classNames="font-semibold text-lg text-gray-200">
               Smart Suggestions as You Go
             </Title>

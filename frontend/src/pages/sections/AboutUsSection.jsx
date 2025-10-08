@@ -17,7 +17,7 @@ const AboutUsSection = () => {
         reflects who they are — not how good they are at formatting.
       </Subtitle>
       <DotLottieReact
-        src="public/animations/innovation.lottie"
+        src="/animations/innovation.lottie"
         loop
         autoplay
         className="mt-10 h-auto w-2/5"
