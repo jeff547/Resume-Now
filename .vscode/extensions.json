@@ -2,6 +2,7 @@
     "recommendations": [
         "marnix.tokyo-night-pro",
         "mutantdino.resourcemonitor",
-        "wakatime.vscode-wakatime"
+        "wakatime.vscode-wakatime",
+        "github.vscode-github-actions"
     ]
 }
