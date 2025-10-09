@@ -15,6 +15,9 @@ ResumeNow is an intuitive and powerful tool designed to simplify the process of 
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff)](#)
 [![Pytest](https://img.shields.io/badge/Pytest-fff?logo=pytest&logoColor=000)](#)
 
+## 👀 Preview 
+https://lively-rock-0a574420f.1.azurestaticapps.net
+
 ## 📝 TODO / Roadmap
 
 ### 🖥️ Frontend Improvements
