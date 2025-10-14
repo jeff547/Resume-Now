@@ -1,6 +1,8 @@
 import asyncio
+
 from logging.config import fileConfig
 
+from azure.identity import DefaultAzureCredential
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
@@ -16,7 +18,17 @@ from app.models.user import User
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", settings.sqlalchemy_database_url)
+# Local dev Postgres password and ssl
+password = settings.POSTGRES_PWD
+ssl_mode = "disable"
+
+# Get Azure access token
+if settings.POSTGRES_HOST.endswith(".database.azure.com"):
+    azure_creds = DefaultAzureCredential()
+    password = azure_creds.get_token("https://ossrdbms-aad.database.windows.net/.default").token
+    ssl_mode = "require"
+
+config.set_main_option("sqlalchemy.url", f"postgresql+asyncpg://{settings.POSTGRES_USER}:{password}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}?ssl={ssl_mode}")
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

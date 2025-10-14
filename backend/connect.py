@@ -1,15 +1,24 @@
 import asyncio
 import asyncpg
+from azure.identity import DefaultAzureCredential
 
 async def connect():
+    PGHOST="resumenow-db.postgres.database.azure.com"
+    PGUSER="jl3925@sas.rutgers.edu"
+    PGPORT=5432
+    PGDATABASE="postgres"
     try:
+        print("Retrieving access token from azure...")
+        credential = DefaultAzureCredential()
+        token = credential.get_token("https://ossrdbms-aad.database.windows.net/.default").token
+        print(f"Token: {token}")
         print("⏳ Connecting to database...")
         conn = await asyncpg.connect(
-            user="jeff547@resumenow-db",
-            password="H78t9gi9!0",
-            database="postgres",
-            host="resumenow-db.postgres.database.azure.com",
-            port=5432,
+            host=PGHOST,
+            port=PGPORT,
+            user=PGUSER,
+            password=token,  
+            database=PGDATABASE,
             ssl="require"
         )
         print("✅ Connected successfully!")
