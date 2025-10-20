@@ -1,9 +1,0 @@
-{
-  "routes": [
-    {
-      "route": "/api/*",
-      "allowedRoles": ["anonymous"],
-      "rewrite": "https://resume-now-backend-h3avg8g4gaatccay.northcentralus-01.azurewebsites.net"
-    }
-  ]
-}

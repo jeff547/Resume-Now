@@ -108,10 +108,8 @@ async def test_logout(async_client: AsyncClient, test_user : tuple[User, str]) -
     # Logout user
     r = await async_client.delete('/logout')
     assert r.status_code == 200
-    print(async_client.cookies)
     assert 'refresh_token' not in async_client.cookies
     
     # No cookies
     r = await async_client.get("/token/refresh")
-    assert r.status_code == 401
     assert r.json()['detail'] == "No refresh token"

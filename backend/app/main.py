@@ -7,9 +7,9 @@ from app.routers import users, projects, login
 # Intialize App
 app = FastAPI()
 # Add Users and Projects Routers to App
-app.include_router(users.router)
-app.include_router(projects.router)
-app.include_router(login.router)
+app.include_router(users.router, prefix="/api")
+app.include_router(projects.router, prefix="/api")
+app.include_router(login.router, prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
