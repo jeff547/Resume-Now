@@ -18,27 +18,26 @@ async def create_postgres_engine() -> AsyncEngine:
     # Gets Azure credentials, access token, and sets ssl if building on azure
     if settings.POSTGRES_HOST.endswith(".database.azure.com"):
         azure_creds = DefaultAzureCredential()
-        password = azure_creds.get_token("https://ossrdbms-aad.database.windows.net/.default").token
         ssl_mode = "require"
     else:
         azure_creds = None
-        password = settings.POSTGRES_PWD
         ssl_mode = "disable"
         
     # Build postgres connection string
-    PG_URL = f"postgresql+asyncpg://{settings.POSTGRES_USER}:{password}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}?ssl={ssl_mode}"
-    os.environ["POSTGRES_URL"] = PG_URL
-    print("url", os.getenv("POSTGRES_URL"))
+    PG_URL = f"postgresql+asyncpg://{settings.POSTGRES_USER}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}?ssl={ssl_mode}"
         
     # Create engine
     engine = create_async_engine(PG_URL, echo=True)
 
     # Automatically refresh token for Azure
-    if azure_creds and settings.POSTGRES_HOST.endswith(".database.azure.com"):
-        @event.listens_for(engine.sync_engine, "do_connect")
-        def update_access_token(dialect, conn_rec, cargs, cparams):
-            print("♻️ Refreshing Azure AD token for PostgreSQL connection...")
+    @event.listens_for(engine.sync_engine, "do_connect")
+    def update_access_token(dialect, conn_rec, cargs, cparams):
+        print("♻️ Refreshing Azure AD token for PostgreSQL connection...")
+        if azure_creds and settings.POSTGRES_HOST.endswith(".database.azure.com"):
             cparams["password"] = azure_creds.get_token("https://ossrdbms-aad.database.windows.net/.default").token
+        else:
+            cparams['password'] = settings.POSTGRES_PWD
+        print(cparams['password'])
 
     return engine
 
@@ -48,10 +47,11 @@ async def get_sessionmaker() -> async_sessionmaker[AsyncSession]:
     engine = await create_postgres_engine()
     return async_sessionmaker(
         bind=engine,
-    class_=AsyncSession,
-    autocommit=False,
-    autoflush=False,
-    expire_on_commit=False,)
+        class_=AsyncSession,
+        autocommit=False,
+        autoflush=False,
+        expire_on_commit=False,
+    )
 
 
 async def get_db() -> AsyncGenerator[AsyncSession, None]:

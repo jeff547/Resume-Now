@@ -13,8 +13,8 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_USER: str
     POSTGRES_PORT: int = 5432
-    POSTGRES_DB: str = ""
-    POSTGRES_PWD: str
+    POSTGRES_DB: str
+    POSTGRES_PWD: str = ""
     
     # Superuser Credentials
     superuser_email: str
