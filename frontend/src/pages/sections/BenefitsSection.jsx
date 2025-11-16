@@ -14,14 +14,14 @@ const BenefitsSection = () => {
   return (
     <LandingPageSection id="benefits">
       <SectionLabel title="Benefits" />
-      <Title classNames="text-4xl text-gray-300 mb-2">
+      <Title classNames="mb-2 text-center text-3xl text-gray-300 sm:text-4xl">
         How ResumeNow Helps You!
       </Title>
-      <Subtitle classNames="text-gray-400 mb-12 text-center">
-        It’s more than just resume building. <br />
-        We provide clarity, confidence, and control.
+      <Subtitle classNames="mb-12 max-w-3xl text-center text-gray-400">
+        It’s more than just resume building. We provide clarity, confidence, and
+        control.
       </Subtitle>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <Card>
           <div className="m-3 flex flex-col items-center gap-2 text-center">
             <img src={time} className="ml-4 h-auto w-20" />

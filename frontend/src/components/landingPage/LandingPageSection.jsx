@@ -8,7 +8,7 @@ const LandingPageSection = ({ id, children }) => {
       viewport={{ once: true }}
       transition={{ duration: 0.75, delay: 0.6 }}
       id={id}
-      className={`${id === "home" ? "h-[90vh]" : "h-[80vh]"} font-roboto mb-30 mt-10 flex flex-col items-center`}
+      className={`${id === "home" ? "min-h-screen" : "min-h-[60vh]"} font-roboto mb-30 mt-10 flex w-full flex-col items-center px-4 sm:px-8 lg:px-16`}
     >
       {children}
     </motion.section>
