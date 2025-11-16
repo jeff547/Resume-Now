@@ -16,7 +16,7 @@ const CreationHeader = ({ currentStep, stepsLength, progress }) => {
         </Link>
         <div className="hidden h-6 w-px bg-gray-800 sm:block" aria-hidden />
         <img src={logo} alt="ResumeNow logo" className="h-7 w-7" />
-        <p className="text-lg font-semibold">Create a project</p>
+        <p className="text-lg font-semibold">Create your resume</p>
       </div>
       <div className="space-y-2 text-right">
         <p className="text-xs uppercase tracking-wide text-gray-500">
