@@ -8,7 +8,8 @@ services:
     ports:
       - 8000:8000 # Exposes FastAPI app on localhost:8000
     volumes:
-      - ./backend:/backend # Syncs local code with container for hot reload
+      - ./:/workspace # Syncs entire repo into container for hot reload
+    working_dir: /workspace/backend
     env_file:
       - .env
     environment:
@@ -22,15 +23,17 @@ services:
     ports:
       - 3000:3000 # Exposes frontend (Vite/React) on localhost:3000
     volumes:
-      - ./frontend:/frontend # Sync code for hot reload
-      - /frontend/node_modules # Prevents node_modules being overwritten by empty host dir
+      - ./:/workspace # Sync entire repo, keeps .git available
+      - frontend_node_modules:/workspace/frontend/node_modules # Persist deps inside container
       - "${HOME}/.vscode/extensions:/root/.vscode/extensions" 
       - "${HOME}/Library/Application Support/Code/User/globalStorage/wallabyjs.console-ninja:/root/.console-ninja"
+    working_dir: /workspace/frontend
     env_file:
       - .env
     environment:
     - CHOKIDAR_USEPOLLING=true
-    command: npm run dev
+    command: >
+      sh -c "cd /workspace/frontend && ([ -x node_modules/.bin/vite ] || npm install) && npm run dev"
     tty: true
     stdin_open: true
   db:
@@ -51,3 +54,5 @@ services:
     restart: always 
     shm_size: 128mb # set shared memory limit
 
+volumes:
+  frontend_node_modules:

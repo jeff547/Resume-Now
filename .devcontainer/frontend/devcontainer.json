@@ -5,14 +5,13 @@
 
   "service": "frontend",
 
-  "mounts": [
-    "source=${localWorkspaceFolder}/../.git,target=/workspace/.git,type=bind,consistency=cached"
-   ],
+  "workspaceFolder": "/workspace/frontend",
 
-  "workspaceFolder": "/frontend",
+  "mounts": [
+    "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached"
+  ],
 
   "forwardPorts": [3000],
-
 
   "features": {
     // "ghcr.io/devcontainers/features/azure-cli": "latest"
@@ -33,7 +32,8 @@
         "christian-kohler.npm-intellisense",
         "esbenp.prettier-vscode",
         "bradlc.vscode-tailwindcss",
-        "ms-vscode.vscode-node-azure-pack"
+        "ms-vscode.vscode-node-azure-pack",
+        "openai.chatgpt"
       ]
     }
   }
