@@ -18,7 +18,7 @@ import useAuth from "../../hooks/useAuth";
 import { useEffect, useState } from "react";
 import useApiAuth from "../../hooks/useApiAuth";
 
-const SidePanel = ({ folders, active, setActive }) => {
+const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
   const DELETE_USER_URL = "/users/self";
   const UPDATE_USER_URL = "/users/self";
   const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -80,6 +80,10 @@ const SidePanel = ({ folders, active, setActive }) => {
     console.log(`Email - ${email} is Valid: ${isValid}`);
     setValidEmail(isValid);
   }, [email]);
+
+  const closeSidebar = () => {
+    onClose && onClose();
+  };
 
   return (
     <>
@@ -190,37 +194,56 @@ const SidePanel = ({ folders, active, setActive }) => {
         </div>
       </Modal>
       {/* Main Side Panel */}
-      <aside className="flex flex-col bg-gray-1100 py-4 pl-5 text-gray-600 text-sm gap-3 h-screen">
+      <aside
+        id="dashboard-sidebar"
+        className={`flex h-full w-full flex-shrink-0 flex-col gap-3 border-b border-gray-900 bg-gray-1100 pl-5 pr-4 text-sm text-gray-600 transition-all duration-300 ease-out ${
+          isOpen
+            ? "max-h-[70vh] overflow-y-auto py-4 opacity-100"
+            : "max-h-0 overflow-hidden py-0 opacity-0"
+        } md:max-h-none md:overflow-y-auto md:border-b-0 md:border-r md:py-4 md:opacity-100 md:w-64 md:min-w-[15rem]`}
+      >
         <h3
           className="hover:text-gray-400 cursor-pointer"
-          onClick={() => setOpenProfile(true)}
+          onClick={() => {
+            setOpenProfile(true);
+            closeSidebar();
+          }}
         >
           <FontAwesomeIcon icon={faUser} className="pr-1" />
           Account
         </h3>
         <h3
           className="hover:text-gray-400 cursor-pointer"
-          onClick={() => setOpenSettings(true)}
+          onClick={() => {
+            setOpenSettings(true);
+            closeSidebar();
+          }}
         >
           <FontAwesomeIcon icon={faGear} className="pr-1" />
           Settings
         </h3>
         <h3
           className="hover:text-gray-400 cursor-pointer"
-          onClick={() => navigate("/#contact")}
+          onClick={() => {
+            navigate("/#contact");
+            closeSidebar();
+          }}
         >
           <FontAwesomeIcon icon={faMessage} className="pr-1" />
           Contact
         </h3>
         <h3
           className="hover:text-gray-400 cursor-pointer"
-          onClick={() => navigate("/#about")}
+          onClick={() => {
+            navigate("/#about");
+            closeSidebar();
+          }}
         >
           <FontAwesomeIcon icon={faCircleInfo} className="pr-1" />
           About Us
         </h3>
         {/* Divider */}
-        <div className="border-t border-gray-800 w-[200px] mr-3 my-2" />
+        <div className="my-2 mr-3 w-full border-t border-gray-800" />
         {/* TOOD: Add folder functionality */}
         <h1 className="text-gray-200 font-medium">Folders</h1>
         <ul className="mr-3">
@@ -228,7 +251,10 @@ const SidePanel = ({ folders, active, setActive }) => {
             <button
               className={`hover:text-gray-400 cursor-pointer text-start block p-1 mb-2 rounded-lg w-full ${active === idx ? "bg-gray-900 text-gray-300" : ""}`}
               key={idx}
-              onClick={() => setActive(idx)}
+              onClick={() => {
+                setActive(idx);
+                closeSidebar();
+              }}
             >
               <FontAwesomeIcon icon={faFolder} className="mr-1.5" />
               {folder}

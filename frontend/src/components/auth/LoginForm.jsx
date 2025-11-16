@@ -73,7 +73,7 @@ const LoginForm = ({ from }) => {
     <>
       <ErrorMessage errMsg={errMsg} errRef={errRef} />
       <form
-        className="flex w-[420px] flex-col items-start gap-6 px-8 pt-6"
+        className="flex w-full max-w-sm flex-col items-start gap-6 px-4 pt-5 sm:max-w-md sm:px-6"
         onSubmit={handleSubmit}
       >
         <Title classNames="text-3xl font-semibold text-gray-200 mb-2">

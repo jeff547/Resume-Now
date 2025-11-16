@@ -52,9 +52,9 @@ const LoginPage = () => {
           className="pointer-events-none absolute"
         />
       )}
-      <div className="mx-12 flex min-h-screen items-center justify-end">
-        <Card>
-          <div className="mb-8 flex flex-col items-center">
+      <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center gap-8 px-3 py-10 sm:px-4 lg:flex-row lg:items-center lg:justify-center lg:gap-14 lg:px-8">
+        <Card className="w-full max-w-xl">
+          <div className="mb-8 flex w-full flex-col items-center">
             {register ? (
               <Register
                 success={success}
@@ -65,10 +65,10 @@ const LoginPage = () => {
               <LoginForm from={from} />
             )}
             {success || (
-              <section>
+              <section className="flex w-full flex-col items-center text-center">
                 <Seperator />
                 <button
-                  className="mx-4 my-8 flex items-center gap-3 rounded-xl border border-gray-600 bg-white py-3 pl-6 pr-16 text-gray-500 hover:bg-gray-100"
+                  className="mx-auto my-8 flex w-auto max-w-[220px] items-center justify-center gap-3 rounded-xl border border-gray-600 bg-white px-4 py-3 text-gray-500 hover:bg-gray-100 sm:max-w-none sm:px-6 sm:py-3"
                   onClick={() => googleLogin()}
                 >
                   <img src={googleLogo} alt="google" className="h-6 w-6" />
@@ -90,12 +90,15 @@ const LoginPage = () => {
           </div>
         </Card>
 
-        <DotLottieReact
-          src="/animations/hello.lottie"
-          loop
-          autoplay
-          className="md:h-[400px] md:w-[600px]"
-        />
+        <div className="flex w-full justify-center">
+          <DotLottieReact
+            src="/animations/hello.lottie"
+            loop
+            autoplay
+            className="w-full max-w-md object-contain md:max-w-lg"
+            style={{ aspectRatio: "3 / 2" }}
+          />
+        </div>
       </div>
     </>
   );

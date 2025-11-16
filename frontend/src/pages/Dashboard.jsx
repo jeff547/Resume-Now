@@ -8,9 +8,10 @@ import SidePanel from "../components/dashboard/SidePanel";
 import useAuth from "../hooks/useAuth";
 
 const Dashboard = () => {
-  const [folders, setFolders] = useState(["All", "Archive"]);
+  const [folders] = useState(["All", "Archive"]);
   const [searchQuery, setSearchQuery] = useState("");
   const [active, setActive] = useLocalStorage("activeFolder", 0);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { setUser } = useAuth();
   const apiAuth = useApiAuth();
 
@@ -30,10 +31,21 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="bg-gray-1000 min-h-screen">
-        <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <div className="mt-0.5 flex">
-          <SidePanel folders={folders} active={active} setActive={setActive} />
+      <div className="flex min-h-screen flex-col bg-gray-1000 md:h-screen">
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+          isSidebarOpen={isSidebarOpen}
+        />
+        <div className="mt-0.5 flex flex-1 min-h-0 flex-col overflow-hidden md:flex-row">
+          <SidePanel
+            folders={folders}
+            active={active}
+            setActive={setActive}
+            isOpen={isSidebarOpen}
+            onClose={() => setIsSidebarOpen(false)}
+          />
           <Projects activeFolder={folders[active]} searchQuery={searchQuery} />
         </div>
       </div>

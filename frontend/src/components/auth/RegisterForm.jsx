@@ -109,7 +109,7 @@ const Register = ({ success, setSuccess, setRegister }) => {
   return (
     <>
       {success ? (
-        <div className="flex flex-col items-center gap-8 px-8 py-10">
+        <div className="flex w-full max-w-sm flex-col items-center gap-8 px-4 py-9 text-center sm:max-w-md sm:px-6">
           <Title classNames="text-3xl text-center">
             Your account was successfully created!
           </Title>
@@ -118,10 +118,10 @@ const Register = ({ success, setSuccess, setRegister }) => {
           </button>
         </div>
       ) : (
-        <section>
+        <section className="flex w-full flex-col items-center">
           <ErrorMessage errRef={errRef} errMsg={errMsg} />
           <form
-            className="flex min-w-[420px] flex-col items-start gap-5 px-8 pt-6"
+            className="flex w-full max-w-sm flex-col items-center gap-5 px-4 pt-5 sm:max-w-md sm:px-6"
             onSubmit={handleSubmit}
           >
             <Title classNames="text-3xl font-semibold text-gray-200 mb-2">

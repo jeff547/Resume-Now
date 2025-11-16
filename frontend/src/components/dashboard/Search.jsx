@@ -2,12 +2,12 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 
-const Search = ({ searchQuery, setSearchQuery }) => {
+const Search = ({ searchQuery, setSearchQuery, className = "" }) => {
   const [focus, setFocus] = useState(false);
 
   return (
     <div
-      className={`${focus ? "border border-blue-400" : ""} flex items-center gap-1 bg-gray-900 rounded-md px-3 text-sm py-1.5 md:min-w-sm`}
+      className={`${focus ? "border border-blue-400" : ""} flex items-center gap-1 rounded-md bg-gray-900 px-3 py-1.5 text-sm ${className}`}
     >
       <FontAwesomeIcon icon={faSearch} className=" text-gray-400" />
       <input
@@ -16,7 +16,7 @@ const Search = ({ searchQuery, setSearchQuery }) => {
         autoComplete="off"
         placeholder="Search"
         value={searchQuery}
-        className="focus:outline-none"
+        className="w-full bg-transparent text-gray-200 focus:outline-none"
         onChange={(e) => setSearchQuery(e.target.value)}
         onFocus={() => setFocus(true)}
         onBlur={() => setFocus(false)}

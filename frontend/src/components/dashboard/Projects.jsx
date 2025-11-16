@@ -57,7 +57,7 @@ const Projects = ({ activeFolder, searchQuery }) => {
       } else if (activeSortBy === 1) {
         return new Date(b.last_opened) - new Date(a.last_opened);
       } else if (activeSortBy === 2) {
-        a.title.localeCompare(b.title);
+        return a.title.localeCompare(b.title);
       }
       return 0;
     });
@@ -129,21 +129,21 @@ const Projects = ({ activeFolder, searchQuery }) => {
       </Modal>
 
       {/* Main Projects Section */}
-      <main className="px-24 py-8 w-full">
+      <main className="flex-1 min-h-0 overflow-y-auto px-6 py-8 sm:px-8 lg:px-12 xl:px-24">
         {/* Header */}
-        <div className="pb-6 relative">
+        <div className="relative flex flex-wrap items-end justify-between gap-3 pb-6">
           <h2 className="text-2xl">{activeFolder} Projects</h2>
-          <div ref={projectSortByRef} className="w-fit">
+          <div ref={projectSortByRef} className="relative text-sm">
             <h1
-              className="text-gray-600 text-sm cursor-pointer "
+              className="cursor-pointer text-gray-600"
               onClick={() => setSortByDropdown(!sortByDropdown)}
             >
-              {sortBys[0]}
+              {sortBys[activeSortBy]}
               <FontAwesomeIcon icon={faAngleDown} className="pl-1" />
             </h1>
             {/* Sortby Dropdown */}
             <div
-              className={`bg-gray-800 shadow-lg p-1 w-36 rounded-lg text-xs absolute top-14 shadow-gray-1000 ${sortByDropdown ? "visible" : "hidden"}`}
+              className={`absolute right-0 top-8 w-40 rounded-lg bg-gray-800 p-1 text-xs shadow-lg shadow-gray-1000 transition ${sortByDropdown ? "visible opacity-100" : "invisible opacity-0"}`}
             >
               <ul>
                 {sortBys.map((sortBy, idx) => (
@@ -152,6 +152,7 @@ const Projects = ({ activeFolder, searchQuery }) => {
                       className="flex items-center hover:bg-purple-600 w-full gap-2 rounded-md"
                       onClick={() => {
                         setActiveSortBy(idx);
+                        setSortByDropdown(false);
                       }}
                     >
                       <FontAwesomeIcon
@@ -170,23 +171,28 @@ const Projects = ({ activeFolder, searchQuery }) => {
         {/* Projects Display */}
         {filteredProjects?.length ? (
           <ul
-            className="grid grid-cols-3 md:grid-cols-5 gap-6"
+            className="grid justify-center gap-4 md:gap-5"
             ref={projectSettingsRef}
+            style={{
+              gridTemplateColumns: "repeat(auto-fill,minmax(180px,220px))",
+            }}
           >
             {filteredProjects.map((project, idx) => (
-              <li key={idx}>
-                <div className="cursor-pointer min-w-[180px]">
+              <li key={idx} className="flex">
+                <div className="flex w-full min-w-[160px] flex-col overflow-hidden rounded-lg bg-gray-950">
                   {/* Temporary add image */}
-                  <figure className="bg-white h-[300px]"></figure>
-                  <div className="p-3 bg-gray-950 ">
-                    <h1 className="text-sm block pb-0.5">{project?.title}</h1>
-                    <div className="flex items-center justify-between">
-                      <div>
+                  <figure className="aspect-[4/5] w-full bg-white" />
+                  <div className="flex flex-1 flex-col gap-2 p-2.5">
+                    <h1 className="block pb-0.5 text-sm leading-tight">
+                      {project?.title}
+                    </h1>
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center text-xs">
                         <FontAwesomeIcon
                           icon={faFile}
-                          className="text-blue-400 inline"
+                          className="text-blue-400"
                         />
-                        <p className="text-xs pl-1 inline">
+                        <p className="pl-1">
                           {new Date(project?.last_opened).toLocaleDateString(
                             "en-US",
                             {
@@ -201,7 +207,7 @@ const Projects = ({ activeFolder, searchQuery }) => {
                       {/* Project Settings*/}
                       <section className="relative">
                         <button
-                          className="flex rounded-4xl w-5 h-5 hover:bg-gray-800 items-center justify-center p-1 text-sm"
+                          className="flex h-6 w-6 items-center justify-center rounded-full p-1 text-sm hover:bg-gray-800"
                           // Reset toggle if dropdown is already active
                           onClick={() => {
                             openProjectSettings === idx
@@ -213,12 +219,15 @@ const Projects = ({ activeFolder, searchQuery }) => {
                         </button>
                         {/* Project Settings Dropdown */}
                         <div
-                          className={`bg-gray-800 shadow-lg px-1 py-1 rounded-lg w-36 text-xs absolute shadow-black border border-gray-600 ${idx === openProjectSettings ? "visible" : "invisible"}`}
+                          className={`absolute right-0 top-7 w-36 rounded-lg border border-gray-600 bg-gray-800 px-1 py-1 text-xs shadow-black shadow-lg ${idx === openProjectSettings ? "visible" : "invisible"}`}
                         >
                           <ul>
                             {projectOptions.map((option, idx) => (
                               <li key={idx} className="flex items-center gap-2">
-                                <button className="flex items-center hover:bg-purple-600 w-full gap-2 rounded-md cursor-pointer">
+                                <button
+                                  className="flex w-full cursor-pointer items-center gap-2 rounded-md hover:bg-purple-600"
+                                  onClick={option.handleClick}
+                                >
                                   <FontAwesomeIcon icon={option.icon} />
                                   <p className="my-1">{option.label}</p>
                                 </button>
@@ -234,9 +243,9 @@ const Projects = ({ activeFolder, searchQuery }) => {
             ))}
           </ul>
         ) : (
-          <div className="flex flex-col text-center items-center justify-center gap-1 mt-[18vw]">
-            <h1 className="">No Results</h1>
-            <h3 className="text-gray-600 text-sm">
+          <div className="flex min-h-[50vh] flex-col items-center justify-center gap-1 text-center">
+            <h1>No Results</h1>
+            <h3 className="text-sm text-gray-600">
               Try using different keywords <br />
               and searching again.
             </h3>
