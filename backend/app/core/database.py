@@ -1,13 +1,22 @@
-import os
+import time
 from typing import Annotated, AsyncGenerator
 
 from azure.identity import DefaultAzureCredential
-from fastapi import Depends
+from fastapi import Depends, Request
 from sqlalchemy import event
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncEngine
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.config import settings
+
+# Module-Level credential to avoid unnecessary recalls
+azure_credential: DefaultAzureCredential | None = None
+if settings.POSTGRES_HOST.endswith(".database.azure.com"):
+    azure_credential = DefaultAzureCredential()
+
+# Keep Azure access token cached to avoid unnecessary refreshes
+token_cache = {"token": settings.POSTGRES_PWD, "expires": 0}
+
 
 async def create_postgres_engine() -> AsyncEngine:
     """
@@ -15,57 +24,52 @@ async def create_postgres_engine() -> AsyncEngine:
     for both Azure deployment
     and local development
     """
-    # Gets Azure credentials, access token, and sets ssl if building on azure
-    if settings.POSTGRES_HOST.endswith(".database.azure.com"):
-        azure_creds = DefaultAzureCredential()
-        ssl_mode = "require"
-    else:
-        azure_creds = None
-        ssl_mode = "disable"
-        
+    # Sets ssl_mode depending if local or cloud deployment
+    ssl_mode = "require" if azure_credential is not None else "disable"
+
     # Build postgres connection string
     PG_URL = f"postgresql+asyncpg://{settings.POSTGRES_USER}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}?ssl={ssl_mode}"
-        
+
     # Create engine
-    engine = create_async_engine(PG_URL, echo=True)
+    if azure_credential is not None:  # Cloud Deployment: No Echo
+        engine = create_async_engine(
+            PG_URL,
+            echo=False,
+            pool_size=10,
+            max_overflow=20,
+            pool_recycle=1800,
+            pool_pre_ping=True,
+        )
+    else:  # Local Development: Echo debug logs
+        engine = create_async_engine(
+            PG_URL,
+            echo=True,
+            pool_size=10,
+            max_overflow=20,
+            pool_recycle=1800,
+            pool_pre_ping=True,
+        )
 
     # Automatically refresh token for Azure
     @event.listens_for(engine.sync_engine, "do_connect")
     def update_access_token(dialect, conn_rec, cargs, cparams):
-        print("♻️ Refreshing Azure AD token for PostgreSQL connection...")
-        if azure_creds and settings.POSTGRES_HOST.endswith(".database.azure.com"):
-            cparams["password"] = azure_creds.get_token("https://ossrdbms-aad.database.windows.net/.default").token
-        else:
-            cparams['password'] = settings.POSTGRES_PWD
-        print(cparams['password'])
+        if azure_credential is not None and token_cache["expires"] < time.time():
+            print("♻️ Refreshing Azure AD token for PostgreSQL connection...")
+            token_payload = azure_credential.get_token(
+                "https://ossrdbms-aad.database.windows.net/.default"
+            )
+            token_cache["token"] = token_payload.token
+            token_cache["expires"] = token_payload.expires_on - 60
+
+        cparams["password"] = token_cache["token"]
 
     return engine
 
-# --- SESSION DEPENDENCY --- #
-async def get_sessionmaker() -> async_sessionmaker[AsyncSession]:
-    """Return a sessionmaker bound to the correct async engine."""
-    engine = await create_postgres_engine()
-    return async_sessionmaker(
-        bind=engine,
-        class_=AsyncSession,
-        autocommit=False,
-        autoflush=False,
-        expire_on_commit=False,
-    )
 
-
-async def get_db() -> AsyncGenerator[AsyncSession, None]:
-    session_factory = await get_sessionmaker()
+async def get_db(request: Request) -> AsyncGenerator[AsyncSession, None]:
+    session_factory = request.app.state.session_factory
     async with session_factory() as session:
-        try:
-            yield session
-        finally:
-            await session.close()
+        yield session
 
-# async def get_db() -> AsyncGenerator[AsyncSession, None]:
-#     async with async_session() as session:
-#         yield session
 
 SessionDep = Annotated[AsyncSession, Depends(get_db)]
-
-    

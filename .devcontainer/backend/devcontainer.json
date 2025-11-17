@@ -34,7 +34,9 @@
                 "humao.rest-client",
                 "ckolkman.vscode-postgres",
                 "qwtel.sqlite-viewer",
-                "openai.chatgpt"
+                "openai.chatgpt",
+                "njpwerner.autodocstring",
+                "ms-python.black-formatter"
             ]
         }
     },
