@@ -39,18 +39,18 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
   const [lastName, setLastName] = useLocalStorage("lastName", "");
 
   const handleCloseProfile = async () => {
-    if (!validEmail) return;
-
-    try {
-      const response = await apiAuth.patch(UPDATE_USER_URL, {
-        email,
-        username,
-        first_name: firstName,
-        last_name: lastName,
-      });
-      console.log(`/update/self: ${JSON.stringify(response?.data)}`);
-    } catch (err) {
-      console.error(err);
+    if (validEmail) {
+      try {
+        const response = await apiAuth.patch(UPDATE_USER_URL, {
+          email,
+          username,
+          first_name: firstName,
+          last_name: lastName,
+        });
+        console.log(`/update/self: ${JSON.stringify(response?.data)}`);
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     setOpenProfile(false);
@@ -68,11 +68,13 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
 
   // Set user profile
   useEffect(() => {
-    user?.email && setEmail(user?.email);
-    user?.username && setUsername(user?.username);
-    user?.firstName && setFirstName(user?.firstName);
-    user?.lastName && setLastName(user?.lastName);
-  }, []);
+    if (!user) return;
+
+    user.email && setEmail(user.email);
+    user.username && setUsername(user.username);
+    user.firstName && setFirstName(user.firstName);
+    user.lastName && setLastName(user.lastName);
+  }, [user]);
 
   // Checks if email is in correct format
   useEffect(() => {
@@ -96,9 +98,9 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
             onClick={() => setOpenSettings(false)}
           />
         </div>
-        <div className="border-t border-gray-600 mr-3 my-4 w-full" />
+        <div className="my-4 mr-3 w-full border-t border-gray-600" />
         <button
-          className="bg-red-600 px-3 py-1 text-sm rounded-xl text-gray-200 mx-48 cursor-pointer"
+          className="mx-48 cursor-pointer rounded-xl bg-red-600 px-3 py-1 text-sm text-gray-200"
           onClick={logout}
         >
           Logout
@@ -109,7 +111,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
       <Modal open={openProfile} onClose={handleCloseProfile}>
         <div className="flex flex-col items-center gap-1 text-sm">
           {/* Modal Header */}
-          <div className="flex justify-baseline items-center gap-64">
+          <div className="justify-baseline flex items-center gap-64">
             <h1>Edit your profile</h1>
             <X
               className="h-auto w-4 text-gray-600 hover:text-gray-400"
@@ -117,13 +119,13 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
             />
           </div>
           {/* Add add profile picture functionality!!!!!! */}
-          <button className="bg-gray-600 h-18 w-18 rounded-[99px] cursor-pointer">
+          <button className="h-18 w-18 cursor-pointer rounded-[99px] bg-gray-600">
             <FontAwesomeIcon
               icon={faCamera}
-              className="text-gray-100 text-xl"
+              className="text-xl text-gray-100"
             />
           </button>
-          <div className="flex gap-2 mt-6">
+          <div className="mt-6 flex gap-2">
             <div>
               <label htmlFor="firstName" className="block pb-0.5">
                 First Name
@@ -133,7 +135,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
                 id="firstName"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
-                className="pl-2 p-0.5 rounded-md border border-gray-800 bg-gray-1000 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
+                className="bg-gray-1000 rounded-md border border-gray-800 p-0.5 pl-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
               />
             </div>
 
@@ -146,7 +148,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
                 id="lastName"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
-                className="pl-2 p-0.5 rounded-md border border-gray-800 bg-gray-1000 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
+                className="bg-gray-1000 rounded-md border border-gray-800 p-0.5 pl-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
               />
             </div>
           </div>
@@ -160,7 +162,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
               id="username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full pl-2 p-0.5 rounded-md border border-gray-800 bg-gray-1000 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
+              className="bg-gray-1000 w-full rounded-md border border-gray-800 p-0.5 pl-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
             />
           </div>
           <div className="w-full px-6">
@@ -172,19 +174,19 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
               id="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full pl-2 p-0.5 rounded-md border border-gray-800 bg-gray-1000 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
+              className="bg-gray-1000 w-full rounded-md border border-gray-800 p-0.5 pl-2 text-white placeholder-gray-600 focus:outline-none focus:ring focus:ring-purple-700"
             />
           </div>
-          <div className="flex items-center mt-8 gap-4">
+          <div className="mt-8 flex items-center gap-4">
             <button
-              className="bg-gray-800 px-10 py-1 rounded-lg text-red-400 cursor-pointer"
+              className="cursor-pointer rounded-lg bg-gray-800 px-10 py-1 text-red-400"
               onClick={logout}
             >
               Logout
               <FontAwesomeIcon icon={faRightFromBracket} className="pl-1" />
             </button>
             <button
-              className="bg-gray-800 px-5 py-1 rounded-lg text-red-400 cursor-pointer"
+              className="cursor-pointer rounded-lg bg-gray-800 px-5 py-1 text-red-400"
               onClick={deleteAccount}
             >
               Delete Account
@@ -196,14 +198,14 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
       {/* Main Side Panel */}
       <aside
         id="dashboard-sidebar"
-        className={`flex h-full w-full flex-shrink-0 flex-col gap-3 border-b border-gray-900 bg-gray-1100 pl-5 pr-4 text-sm text-gray-600 transition-all duration-300 ease-out ${
+        className={`bg-gray-1100 flex h-full w-full flex-shrink-0 flex-col gap-3 border-b border-gray-900 pl-5 pr-4 text-sm text-gray-600 transition-all duration-300 ease-out ${
           isOpen
             ? "max-h-[70vh] overflow-y-auto py-4 opacity-100"
             : "max-h-0 overflow-hidden py-0 opacity-0"
-        } md:max-h-none md:overflow-y-auto md:border-b-0 md:border-r md:py-4 md:opacity-100 md:w-64 md:min-w-[15rem]`}
+        } md:max-h-none md:w-64 md:min-w-[15rem] md:overflow-y-auto md:border-b-0 md:border-r md:py-4 md:opacity-100`}
       >
         <h3
-          className="hover:text-gray-400 cursor-pointer"
+          className="cursor-pointer hover:text-gray-400"
           onClick={() => {
             setOpenProfile(true);
             closeSidebar();
@@ -213,7 +215,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
           Account
         </h3>
         <h3
-          className="hover:text-gray-400 cursor-pointer"
+          className="cursor-pointer hover:text-gray-400"
           onClick={() => {
             setOpenSettings(true);
             closeSidebar();
@@ -223,7 +225,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
           Settings
         </h3>
         <h3
-          className="hover:text-gray-400 cursor-pointer"
+          className="cursor-pointer hover:text-gray-400"
           onClick={() => {
             navigate("/#contact");
             closeSidebar();
@@ -233,7 +235,7 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
           Contact
         </h3>
         <h3
-          className="hover:text-gray-400 cursor-pointer"
+          className="cursor-pointer hover:text-gray-400"
           onClick={() => {
             navigate("/#about");
             closeSidebar();
@@ -245,11 +247,11 @@ const SidePanel = ({ folders, active, setActive, isOpen, onClose }) => {
         {/* Divider */}
         <div className="my-2 mr-3 w-full border-t border-gray-800" />
         {/* TOOD: Add folder functionality */}
-        <h1 className="text-gray-200 font-medium">Folders</h1>
+        <h1 className="font-medium text-gray-200">Folders</h1>
         <ul className="mr-3">
           {folders.map((folder, idx) => (
             <button
-              className={`hover:text-gray-400 cursor-pointer text-start block p-1 mb-2 rounded-lg w-full ${active === idx ? "bg-gray-900 text-gray-300" : ""}`}
+              className={`mb-2 block w-full cursor-pointer rounded-lg p-1 text-start hover:text-gray-400 ${active === idx ? "bg-gray-900 text-gray-300" : ""}`}
               key={idx}
               onClick={() => {
                 setActive(idx);
