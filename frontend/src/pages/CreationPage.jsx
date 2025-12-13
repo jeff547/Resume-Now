@@ -10,7 +10,7 @@ import SkillsStep from "../components/creation/SkillsStep";
 import WorkExperienceStep from "../components/creation/WorkExperienceStep";
 import ProjectsStep from "../components/creation/ProjectsStep";
 import ExtrasStep from "../components/creation/ExtrasStep";
-import techSuggestions from "../components/creation/TechSuggestions";
+import { techSuggestions } from "../components/creation/TechSuggestions";
 
 const steps = [
   {
