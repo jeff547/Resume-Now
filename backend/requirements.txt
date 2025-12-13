@@ -4,6 +4,7 @@ azure-identity
 bcrypt<4.0.0
 cryptography
 fastapi
+openai
 PyJWT
 passlib
 asyncpg

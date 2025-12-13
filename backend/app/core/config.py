@@ -21,5 +21,9 @@ class Settings(BaseSettings):
     superuser_email: str
     superuser_password: str
 
+    # OpenAI
+    OPENAI_API_KEY: str
+    OPENAI_MODEL: str
+
 
 settings = Settings()  # type: ignore

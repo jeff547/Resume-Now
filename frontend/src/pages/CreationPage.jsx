@@ -10,6 +10,7 @@ import SkillsStep from "../components/creation/SkillsStep";
 import WorkExperienceStep from "../components/creation/WorkExperienceStep";
 import ProjectsStep from "../components/creation/ProjectsStep";
 import ExtrasStep from "../components/creation/ExtrasStep";
+import techSuggestions from "../components/creation/TechSuggestions";
 
 const steps = [
   {
@@ -47,66 +48,6 @@ const steps = [
     instructions:
       "Awards, volunteering, certifications, or anything else worth celebrating.",
   },
-];
-
-const techSuggestions = [
-  "JavaScript",
-  "TypeScript",
-  "React",
-  "Next.js",
-  "Angular",
-  "Vue",
-  "Node.js",
-  "Python",
-  "Pandas",
-  "NumPy",
-  "Django",
-  "Flask",
-  "FastAPI",
-  "Tailwind CSS",
-  "Sass",
-  "Styled Components",
-  "HTML",
-  "CSS",
-  "AWS",
-  "Azure",
-  "GCP",
-  "Firebase",
-  "Docker",
-  "Kubernetes",
-  "Terraform",
-  "Ansible",
-  "PostgreSQL",
-  "MongoDB",
-  "MySQL",
-  "Redis",
-  "GraphQL",
-  "REST",
-  "gRPC",
-  "Redux",
-  "Zustand",
-  "Figma",
-  "CI/CD",
-  "GitHub Actions",
-  "Bitbucket Pipelines",
-  "Go",
-  "Rust",
-  "Java",
-  "Spring Boot",
-  "Kotlin",
-  "Swift",
-  "Objective-C",
-  "C#",
-  ".NET",
-  "C++",
-  "Unity",
-  "Unreal Engine",
-  "MATLAB",
-  "Power BI",
-  "Tableau",
-  "Looker",
-  "Bash",
-  "PowerShell",
 ];
 
 const initialFormState = {
@@ -213,7 +154,9 @@ const CreationPage = () => {
   const removeWorkExperience = (index) => {
     setFormData((prev) => {
       if (prev.workExperiences.length === 1) return prev;
-      const nextExperiences = prev.workExperiences.filter((_, i) => i !== index);
+      const nextExperiences = prev.workExperiences.filter(
+        (_, i) => i !== index,
+      );
       return { ...prev, workExperiences: nextExperiences };
     });
   };
