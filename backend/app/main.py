@@ -6,7 +6,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.core.config import settings
 from app.core.database import create_postgres_engine
-from app.routers import users, projects, login, health
+from app.routers import users, resumes, login, health
 
 
 # Intialize App
@@ -42,8 +42,8 @@ app.add_middleware(
 )
 
 
-# Add Users and Projects Routers to App
+# Add Users and Resumes Routers to App
 app.include_router(users.router, prefix="/api")
-app.include_router(projects.router, prefix="/api")
+app.include_router(resumes.router, prefix="/api")
 app.include_router(login.router, prefix="/api")
 app.include_router(health.router, prefix="/api")

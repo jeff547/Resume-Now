@@ -10,18 +10,12 @@ Accept: application/json
     "password": "h78t9gi9"
 } 
 
-### Add Project to user
-POST http://localhost:8000/api/projects/
-Content-Type: application/json
+### Get Resume By ID
+GET http://localhost:8000/api/resumes/{}
 Authorization: Bearer {{token}}
 
-{
-    "title": "The Giver",
-    "content": "Sara Outwater"
-}
-
-### Get Projects
-GET http://localhost:8000/api/projects/
+### Get Resumes
+GET http://localhost:8000/api/resumes/
 Authorization: Bearer {{token}}
 
 ### Get Access Token
@@ -37,3 +31,85 @@ Authorization: Bearer {{token}}
 
 ### Refresh Token
 GET http://localhost:8000/api/token/refresh
+
+### Create A New Resume
+POST http://localhost:8000/api/resumes
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Jeff Lu – SWE Intern Resume",
+  "input_data": {
+    "fullName": "Jeff Lu",
+    "email": "jeff@example.com",
+    "phone": "201-555-0199",
+    "linkedIn": "https://www.linkedin.com/in/jefflu",
+    "github": "https://github.com/jefflu",
+    "website": "https://jefflu.dev",
+    "location": "Wayne, NJ",
+    "jobObjective": "Software engineering intern role focused on backend + AI products.",
+    "degree": "B.S. Computer Science",
+    "school": "Rutgers University",
+    "graduationYear": "2027",
+    "skills": ["Python", "FastAPI", "React", "PostgreSQL"],
+    "softSkills": "Communication, ownership, and fast iteration.",
+    "workExperiences": [
+      {
+        "jobTitle": "Web Assistant",
+        "company": "Rutgers SAS IT",
+        "dates": "Sep 2025 - Present",
+        "responsibilities": "Built internal tools, improved deployment workflows, and supported stakeholders."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Resume-Now",
+        "technologies": "FastAPI, React, Postgres, Azure",
+        "description": "AI-assisted resume generator producing LaTeX/PDF outputs.",
+        "role": "Full-stack developer"
+      }
+    ],
+    "extras": "Member of Mu Theta Alpha; fitness + hiking."
+  }
+}
+
+### Regenerates the resume
+PATCH http://localhost:8000/api/resumes/04000229-1a1d-42e2-a9b0-c406ff4d4c13/regenerate
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Jeff Lu – SWE Intern Resume",
+  "input_data": {
+    "fullName": "Jeff Lu",
+    "email": "jeff@example.com",
+    "phone": "201-555-0199",
+    "linkedIn": "https://www.linkedin.com/in/jefflu",
+    "github": "https://github.com/jefflu",
+    "website": "https://jefflu.dev",
+    "location": "Wayne, NJ",
+    "jobObjective": "Software engineering intern role focused on backend + AI products.",
+    "degree": "B.S. Computer Science",
+    "school": "Rutgers University",
+    "graduationYear": "2027",
+    "skills": ["Python", "FastAPI", "React", "PostgreSQL"],
+    "softSkills": "Communication, ownership, and fast iteration.",
+    "workExperiences": [
+      {
+        "jobTitle": "Web Assistant",
+        "company": "Rutgers SAS IT",
+        "dates": "Sep 2025 - Present",
+        "responsibilities": "Built internal tools, improved deployment workflows, and supported stakeholders."
+      }
+    ],
+    "projects": [
+      {
+        "name": "Resume-Now",
+        "technologies": "FastAPI, React, Postgres, Azure",
+        "description": "AI-assisted resume generator producing LaTeX/PDF outputs.",
+        "role": "Full-stack developer"
+      }
+    ],
+    "extras": "Member of Mu Theta Alpha; fitness + hiking."
+  }
+}

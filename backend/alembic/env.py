@@ -11,7 +11,7 @@ from sqlmodel import SQLModel
 from alembic import context
 
 from app.core.config import settings
-from app.models.project import Project
+from app.models.resume import Resume
 from app.models.user import User
 
 # this is the Alembic Config object, which provides

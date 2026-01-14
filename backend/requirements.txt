@@ -1,12 +1,14 @@
 alembic
 aiosqlite
 azure-identity
+azure-storage-blob
 bcrypt<4.0.0
 cryptography
 fastapi
 openai
 PyJWT
 passlib
+pdf2image==1.16.3
 asyncpg
 python-jose
 python-multipart

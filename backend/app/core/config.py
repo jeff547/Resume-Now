@@ -17,6 +17,9 @@ class Settings(BaseSettings):
     POSTGRES_DB: str
     POSTGRES_PWD: str = ""
 
+    # Azure Blob Storage
+    AZURE_STORAGE_CONNECTION_STRING: str
+
     # Superuser Credentials
     superuser_email: str
     superuser_password: str

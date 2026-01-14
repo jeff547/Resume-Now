@@ -3,12 +3,12 @@ import pytest
 
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from app.models.project import Project, ProjectUpdate
+from app.models.resume import Resume, ResumeUpdate
 from app.models.user import User, UserCreate, UserUpdate
 from app import crud
 from app.core.security import verify_password
 from app.core.config import settings
-from app.tests.utils import random_email, random_string, random_project, random_user
+from app.tests.utils import random_email, random_string, random_resume, random_user
 
 '''
 ----------
@@ -90,67 +90,67 @@ async def test_update_user(test_user: tuple[User, str], async_db: AsyncSession) 
 
 '''
 -------------
-Projects CRUD
--------------
+Resumes CRUD
+------------
 '''
 @pytest.mark.asyncio
-async def test_create_project(async_db: AsyncSession) -> None:
+async def test_create_resume(async_db: AsyncSession) -> None:
     user, _ = await random_user(async_db)
-    project = await random_project(async_db, user)
+    resume = await random_resume(async_db, user)
     
-    db_project = await crud.get_project(async_db, user, project.id)
+    db_resume = await crud.get_resume(async_db, user, resume.id)
     
-    assert db_project is not None
-    assert db_project.owner_id == user.id
-    assert project.title is not None
-    assert project.content is not None
+    assert db_resume is not None
+    assert db_resume.owner_id == user.id
+    assert resume.title is not None
+    assert resume.input_data is not None
     
     now = datetime.now()
-    assert now - project.last_opened < timedelta(seconds=5)
+    assert now - resume.last_opened < timedelta(seconds=5)
     
 @pytest.mark.asyncio
-async def test_get_multiple_projects(async_db: AsyncSession) -> None:
+async def test_get_multiple_resumes(async_db: AsyncSession) -> None:
     user_1, _ = await random_user(async_db)
     user_2, _ = await random_user(async_db)
     
-    proj_1 = await random_project(async_db, user_1)
-    proj_2 = await random_project(async_db, user_1)
-    await random_project(async_db, user_2)
+    resume_1 = await random_resume(async_db, user_1)
+    resume_2 = await random_resume(async_db, user_1)
+    await random_resume(async_db, user_2)
     
-    projects, count = await crud.get_projects(async_db, user_1)
-    assert proj_1 == projects[0]
-    assert proj_2 == projects[1]
+    resumes, count = await crud.get_resumes(async_db, user_1)
+    assert resume_1 == resumes[0]
+    assert resume_2 == resumes[1]
     assert count == 2
 
 @pytest.mark.asyncio
-async def test_update_project(async_db: AsyncSession) -> None:
+async def test_update_resume(async_db: AsyncSession) -> None:
     user, _ = await random_user(async_db)
-    proj = await random_project(async_db, user)
+    resume = await random_resume(async_db, user)
     
-    title = proj.title
-    id = proj.id
-    content = proj.content
-    last_opened = proj.last_opened
+    title = resume.title
+    id = resume.id
+    input_data = resume.input_data
+    last_opened = resume.last_opened
     
-    change = ProjectUpdate(title = random_string(5))
+    change = ResumeUpdate(title = random_string(5))
     
-    updated = await crud.update_project(async_db, proj, change)
+    updated = await crud.update_resume(async_db, resume, change)
 
     assert updated.title != title
     assert updated.id == id
-    assert updated.content == content
+    assert updated.input_data == input_data
     assert last_opened < updated.last_opened
 
 @pytest.mark.asyncio
-async def test_delete_project(async_db: AsyncSession) -> None:
+async def test_delete_resume(async_db: AsyncSession) -> None:
     user, _ = await random_user(async_db)
-    proj = await random_project(async_db, user)
-    id = proj.id
+    resume = await random_resume(async_db, user)
+    id = resume.id
     
-    r = await crud.delete_project(async_db, proj)
-    assert r.message == "Project deleted successfully"
+    r = await crud.delete_resume(async_db, resume)
+    assert r.message == "Resume deleted successfully"
     
-    exists = await async_db.get(Project, id)
+    exists = await async_db.get(Resume, id)
     assert not exists
 
     

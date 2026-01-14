@@ -7,6 +7,15 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /backend
 
+RUN apt-get update && apt-get install -y \
+    texlive-latex-base \
+    texlive-latex-recommended \
+    texlive-fonts-recommended \
+    texlive-xetex \
+    poppler-utils \
+    curl \
+ && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt

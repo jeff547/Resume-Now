@@ -36,7 +36,8 @@
                 "qwtel.sqlite-viewer",
                 "openai.chatgpt",
                 "njpwerner.autodocstring",
-                "ms-python.black-formatter"
+                "ms-python.black-formatter",
+                "ms-python.isort"
             ]
         }
     },

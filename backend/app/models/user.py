@@ -5,7 +5,7 @@ from sqlmodel import Field, SQLModel, Relationship
 from pydantic import EmailStr
 
 if TYPE_CHECKING:
-    from .project import Project
+    from .resume import Resume
 
 # ============================
 # User Model
@@ -46,7 +46,7 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: uuid.UUID = Field(default_factory=uuid.uuid4, primary_key=True)
     hashed_password: str
-    projects: list['Project'] = Relationship(back_populates='owner')
+    resumes: list['Resume'] = Relationship(back_populates='owner')
 
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
@@ -56,4 +56,4 @@ class UsersPublic(SQLModel):
     data: list[UserPublic]
     count: int
 
-from .project import Project
+from .resume import Resume

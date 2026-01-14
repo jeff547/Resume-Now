@@ -1,5 +1,5 @@
-from typing import Tuple, Sequence
 from datetime import datetime, timezone
+from typing import Sequence, Tuple
 from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError
@@ -7,10 +7,10 @@ from sqlmodel import func, select
 
 from app.core.database import SessionDep
 from app.core.exceptions import AuthorizationError, DatabaseError, NotFoundError
+from app.core.security import hash_password, verify_password
+from app.models.resume import Resume, ResumeCreate, ResumeUpdate
 from app.models.token import Message
 from app.models.user import User, UserCreate, UserUpdate
-from app.core.security import hash_password, verify_password
-from app.models.project import Project, ProjectCreate, ProjectUpdate
 
 """
 ----------
@@ -110,102 +110,107 @@ async def authenticate_user(db: SessionDep, email: str, password: str) -> User |
 
 """
 -------------
-Projects CRUD
+Resumes CRUD
 -------------
 """
 
 
-async def create_new_project(
+async def create_new_resume(
     db: SessionDep,
     current_user: User,
-    project_in: ProjectCreate,
-) -> Project:
+    resume_in: ResumeCreate,
+) -> Resume:
     """
-    Create a new project
+    Create a new resume
     """
 
-    db_project = Project(
-        title=project_in.title,
+    db_resume = Resume(
+        title=resume_in.title,
+        input_data=resume_in.input_data,
         last_opened=datetime.now(timezone.utc),
         created_at=datetime.now(timezone.utc),
         owner_id=current_user.id,
+        owner=current_user,
     )
-    db.add(db_project)
+
+    db.add(db_resume)
 
     try:
         await db.commit()
-        await db.refresh(db_project)
-        return db_project
+        await db.refresh(db_resume)
+        return db_resume
     except IntegrityError as e:
         await db.rollback()
-        raise DatabaseError("Failed to create project due to database error") from e
+        raise DatabaseError("Failed to create resume due to database error") from e
 
 
-async def get_projects(
+async def get_resumes(
     db: SessionDep, current_user: User, skip: int = 0, limit: int = 100
-) -> Tuple[Sequence[Project], int]:
+) -> Tuple[Sequence[Resume], int]:
     """
     Retrieve current users items.
     """
     count_statement = (
         select(func.count())
-        .select_from(Project)
-        .where(Project.owner_id == current_user.id)
+        .select_from(Resume)
+        .where(Resume.owner_id == current_user.id)
     )
     count_result = await db.exec(count_statement)
     count = count_result.one()
 
     statement = (
-        select(Project)
-        .where(Project.owner_id == current_user.id)
+        select(Resume)
+        .where(Resume.owner_id == current_user.id)
         .offset(skip)
         .limit(limit)
     )
     result = await db.exec(statement)
-    projects = result.all()
+    resumes = result.all()
 
-    return (projects, count)
+    return (resumes, count)
 
 
-async def get_project(db: SessionDep, current_user: User, project_id: UUID) -> Project:
+async def get_resume(db: SessionDep, current_user: User, resume_id: UUID) -> Resume:
     """
-    Retrieve a project by ID from current user
+    Retrieve a resume by ID from current user
     """
-    project = await db.get(Project, project_id)
-    if not project:
-        raise NotFoundError("Project not found")
-    if current_user.id != project.owner_id:
-        raise AuthorizationError("You do not have permission to access this project")
-    return project
+    resume = await db.get(Resume, resume_id)
+    if not resume:
+        raise NotFoundError("Resume not found")
+    if current_user.id != resume.owner_id:
+        raise AuthorizationError("You do not have permission to access this resume")
+    return resume
 
 
-async def update_project(
-    db: SessionDep, db_project: Project, project_in: ProjectUpdate
-) -> Project:
+async def update_resume(
+    db: SessionDep, db_resume: Resume, resume_in: ResumeUpdate
+) -> Resume:
     """
-    Updates a project and returns it
+    Updates a resume and returns it
     """
-    db_project.last_opened = datetime.now(timezone.utc)
-    if project_in.title is not None:
-        db_project.title = project_in.title
+    db_resume.last_opened = datetime.now(timezone.utc)
+    if resume_in.title is not None:
+        db_resume.title = resume_in.title
+    if resume_in.input_data is not None:
+        db_resume.input_data = resume_in.input_data
 
     try:
         await db.commit()
-        await db.refresh(db_project)
-        return db_project
+        await db.refresh(db_resume)
+        return db_resume
     except Exception as e:
         await db.rollback()
-        raise DatabaseError("Failed to update project due to database error") from e
+        raise DatabaseError("Failed to update resume due to database error") from e
 
 
-async def delete_project(db: SessionDep, project: Project) -> Message:
+async def delete_resume(db: SessionDep, resume: Resume) -> Message:
     """
-    Deletes project from database
+    Deletes resume from database
     """
     try:
-        await db.delete(project)
+        await db.delete(resume)
         await db.commit()
-        return Message(message="Project deleted successfully")
+        return Message(message="Resume deleted successfully")
     except Exception as e:
         await db.rollback()
-        raise DatabaseError("Failed to delete project") from e
+        raise DatabaseError("Failed to delete resume") from e
