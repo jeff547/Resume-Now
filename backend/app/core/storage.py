@@ -38,7 +38,7 @@ class ResumeStorage:
         """
 
         blob_client = self.blob_service_client.get_blob_client(
-            container=self.resume_container, blob=file_name
+            container=self.thumbnail_container, blob=file_name
         )
         return blob_client.url
 
@@ -48,12 +48,12 @@ class ResumeStorage:
         """
 
         blob_client = self.blob_service_client.get_blob_client(
-            container=self.thumbnail_container, blob=file_name
+            container=self.resume_container, blob=file_name
         )
 
         sas_token = generate_blob_sas(
             account_name=blob_client.account_name,  # type: ignore
-            container_name=self.thumbnail_container,
+            container_name=self.resume_container,
             blob_name=file_name,
             account_key=self.blob_service_client.credential.account_key,
             permission=BlobSasPermissions(read=True),

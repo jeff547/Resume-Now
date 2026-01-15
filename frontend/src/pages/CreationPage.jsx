@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faChevronRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import CreationHeader from "../components/creation/CreationHeader";
 import RoadmapSidebar from "../components/creation/RoadmapSidebar";
 import BasicInfoStep from "../components/creation/BasicInfoStep";
@@ -11,6 +12,7 @@ import WorkExperienceStep from "../components/creation/WorkExperienceStep";
 import ProjectsStep from "../components/creation/ProjectsStep";
 import ExtrasStep from "../components/creation/ExtrasStep";
 import { techSuggestions } from "../components/creation/TechSuggestions";
+import useApiAuth from "../hooks/useApiAuth";
 
 const steps = [
   {
@@ -91,8 +93,13 @@ const CreationPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState(initialFormState);
   const [skillInput, setSkillInput] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const apiAuth = useApiAuth();
+  const navigate = useNavigate();
 
   const progress = Math.round(((currentStep + 1) / steps.length) * 100);
+  const isLastStep = currentStep === steps.length - 1;
 
   const filteredSuggestions = useMemo(() => {
     const normalized = skillInput.trim().toLowerCase();
@@ -113,8 +120,84 @@ const CreationPage = () => {
     setCurrentStep(Math.max(0, Math.min(stepIndex, steps.length - 1)));
   };
 
-  const handleNext = () => setStep(currentStep + 1);
+  const validateStep = () => {
+    switch (currentStep) {
+      case 0: // Basic Info
+        if (!formData.fullName.trim()) return "Full Name is required.";
+        if (!formData.email.trim()) return "Email is required.";
+        return true;
+
+      case 1: // Objective
+        if (!formData.jobObjective.trim())
+          return "Please enter a job objective.";
+        return true;
+
+      case 2: // Education
+        if (!formData.school.trim()) return "School name is required.";
+        return true;
+
+      case 3: // Skills
+        if (formData.skills.length === 0)
+          return "Please add at least one skill.";
+        return true;
+
+      case 4: // Work Experience
+        if (formData.workExperiences.length > 0) {
+          const firstJob = formData.workExperiences[0];
+          if (!firstJob.company.trim() && !firstJob.jobTitle.trim()) {
+            return "Please add at least one work experience or remove the empty entry.";
+          }
+        }
+        return true;
+
+      case 5: // Projects
+        if (formData.projects.length > 0) {
+          const firstProject = formData.projects[0];
+          if (!firstProject.name.trim()) return "Project Name is required.";
+        }
+        return true;
+
+      default:
+        return true;
+    }
+  };
+
+  const handleNext = () => {
+    const isValid = validateStep();
+
+    if (typeof isValid === "string") {
+      alert(isValid);
+      return;
+    }
+
+    if (isLastStep) {
+      handleSubmit();
+    } else {
+      setStep(currentStep + 1);
+    }
+  };
+
   const handlePrevious = () => setStep(currentStep - 1);
+
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+
+    const payload = {
+      title: `${formData.fullName || "Untitled"}'s Resume`,
+      input_data: formData,
+    };
+
+    try {
+      const response = await apiAuth.post("/resumes/", payload);
+
+      console.log("✅ Success! Server Response:", response.data);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("❌ Resume creation submission failed:", err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleAddSkill = (skill) => {
     if (!skill) return;
@@ -314,13 +397,23 @@ const CreationPage = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="button flex items-center justify-center gap-2 px-6 py-3 text-sm uppercase tracking-wide"
+                disabled={isSubmitting} // Prevents double submission
+                className={`button flex items-center justify-center gap-2 rounded-2xl px-6 py-3 text-sm uppercase tracking-wide transition-all ${
+                  isSubmitting
+                    ? "cursor-wait bg-purple-900/50 text-gray-400" // Style when saving
+                    : "bg-purple-600 text-white shadow-lg shadow-purple-900/20 hover:bg-purple-500" // Normal style
+                }`}
               >
-                {currentStep === steps.length - 1
-                  ? "Finish setup"
-                  : "Next step"}
-                {currentStep !== steps.length - 1 && (
-                  <FontAwesomeIcon icon={faChevronRight} />
+                {isSubmitting ? (
+                  <>
+                    <span>Saving...</span>
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                  </>
+                ) : (
+                  <>
+                    {isLastStep ? "Finish setup" : "Next step"}
+                    {!isLastStep && <FontAwesomeIcon icon={faChevronRight} />}
+                  </>
                 )}
               </button>
             </div>
