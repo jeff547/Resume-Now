@@ -34,8 +34,30 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      # We rely on your conftest.py to handle DB creation and schemas
       - name: Run Pytest
+        env:
+          # --- DUMMY VALUES FOR PYDANTIC VALIDATION ---
+          
+          ALLOWED_ORIGINS: '["http://localhost:3000"]'
+          SECRET_KEY: "super-insecure-test-key"
+          
+          # Database (Pydantic needs these even if conftest overrides the URL)
+          POSTGRES_HOST: "localhost"
+          POSTGRES_USER: "user"
+          POSTGRES_PASSWORD: "password"
+          POSTGRES_DB: "test_db"
+          
+          # Azure (Use a valid-looking format to pass regex checks)
+          AZURE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;EndpointSuffix=core.windows.net"
+          
+          # Superuser
+          SUPERUSER_EMAIL: "admin@example.com"
+          SUPERUSER_PASSWORD: "password"
+          
+          # AI
+          OPENAI_API_KEY: "sk-dummy-key"
+          OPENAI_MODEL: "gpt-4o-mini"
+          
         run: pytest
 
   # --- JOB 2: BUILD & DEPLOY ---
