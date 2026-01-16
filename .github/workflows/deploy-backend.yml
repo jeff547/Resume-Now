@@ -87,11 +87,3 @@ jobs:
           context: ./backend
           push: true
           tags: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
-
-      # 3. Deploy to Azure Web App (using Publish Profile)
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ env.APP_SERVICE_NAME }}
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          images: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
