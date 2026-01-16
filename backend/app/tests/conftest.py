@@ -36,6 +36,8 @@ async def async_engine() -> AsyncGenerator[AsyncEngine, None]:
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.drop_all)
 
+    await engine.dispose()
+
 
 @pytest_asyncio.fixture(scope="function")
 async def async_db(async_engine) -> AsyncGenerator[AsyncSession, None]:
@@ -49,9 +51,7 @@ async def async_db(async_engine) -> AsyncGenerator[AsyncSession, None]:
 
     async with async_session() as session:
         await session.begin()
-
         yield session
-
         await session.rollback()
 
 
