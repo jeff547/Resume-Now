@@ -11,7 +11,7 @@ env:
   REGISTRY_NAME: resumenowregistry.azurecr.io
   IMAGE_NAME: resumenow-backend
   TAG: latest
-  APP_SERVICE_NAME: resumenow-backend
+  APP_SERVICE_NAME: resume-now-backend
 
 jobs:
   # --- JOB 1: TEST ---
