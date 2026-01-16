@@ -1,18 +1,23 @@
 from contextlib import asynccontextmanager
+
+from app.core.config import settings
+from app.core.database import create_postgres_engine
+from app.routers import health, login, resumes, users
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlmodel.ext.asyncio.session import AsyncSession
-
-from app.core.config import settings
-from app.core.database import create_postgres_engine
-from app.routers import users, resumes, login, health
 
 
 # Intialize App
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup
+    print("----- STARTUP: PRINTING REGISTERED ROUTES -----")
+    for route in app.routes:
+        print(f"Route: {route.path} methods={route.methods}")
+    print("---------------------------------------------")
+
     engine = await create_postgres_engine()
     app.state.session_factory = async_sessionmaker(
         bind=engine,
