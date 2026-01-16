@@ -1,0 +1,75 @@
+name: Build and Deploy Backend
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-backend.yml'
+
+env:
+  REGISTRY_NAME: resumenowregistry.azurecr.io
+  IMAGE_NAME: resumenow-backend
+  TAG: latest
+  APP_SERVICE_NAME: resumenow-backend
+
+jobs:
+  # --- JOB 1: TEST ---
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # We rely on your conftest.py to handle DB creation and schemas
+      - name: Run Pytest
+        run: pytest
+
+  # --- JOB 2: BUILD & DEPLOY ---
+  build-and-deploy:
+    needs: test  # Waits for tests to pass
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. Log into ACR (using Admin Keys stored in Secrets)
+      - name: Log in to ACR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY_NAME }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      # 2. Build & Push Docker Image
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+      # 3. Deploy to Azure Web App (using Publish Profile)
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.APP_SERVICE_NAME }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          images: ${{ env.REGISTRY_NAME }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
