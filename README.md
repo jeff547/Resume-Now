@@ -18,11 +18,9 @@ https://lively-rock-0a574420f.1.azurestaticapps.net
 ## 📝 TODO / Roadmap
 
 ### 🖥️ Frontend Improvements
-- [ ] Work on the create resume page
+- [ ] Add more options for resume templates
       
 ### ⚙️ Backend Enhancements
-- [ ] Add OpenAI API workflow
-- [ ] Compile .tex output into pdf and png preview
 
 ## Contribute
 
