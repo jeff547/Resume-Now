@@ -1,9 +1,6 @@
 # Resume Now
 
-***Disclaimer: WIP***
-
 ResumeNow is an intuitive and powerful tool designed to simplify the process of creating, customizing, and previewing professional resumes and CVs. Just answer a couple of questions and have our AI model generate a tailored-made resume for you.
-
 
 ## 🛠 Tech Stack
 
