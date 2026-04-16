@@ -13,7 +13,7 @@ ResumeNow is an intuitive and powerful tool designed to simplify the process of 
 [![Pytest](https://img.shields.io/badge/Pytest-fff?logo=pytest&logoColor=000)](#)
 
 ## 👀 Preview 
-https://lively-rock-0a574420f.1.azurestaticapps.net
+https://lively-rock-0a574420f.1.azurestaticapps.net (Currently down, ran out of free credits)
 
 ## 📝 TODO / Roadmap
 
